@@ -426,15 +426,17 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     paddingHorizontal: spacing.lg,
     gap: spacing.sm,
-    marginBottom: spacing.lg,
+    marginBottom: spacing.md,
   },
   statCard: {
     flex: 1,
     minWidth: '45%',
+    aspectRatio: 1,
     borderRadius: borderRadius.lg,
     padding: spacing.sm + 4,
     borderWidth: 1,
     alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   claimHeader: {
     flexDirection: 'row',
