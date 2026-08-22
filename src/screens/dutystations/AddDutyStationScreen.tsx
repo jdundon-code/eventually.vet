@@ -13,6 +13,8 @@ import {
   Switch,
   Alert,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme';
@@ -125,7 +127,11 @@ export function AddDutyStationScreen({ navigation, route }: AddDutyStationScreen
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={0}
+    >
       <StatusBar barStyle="light-content" />
 
       {/* Header */}
@@ -290,7 +296,7 @@ export function AddDutyStationScreen({ navigation, route }: AddDutyStationScreen
           icon={<Ionicons name="checkmark-circle" size={20} color="#FFFFFF" />}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

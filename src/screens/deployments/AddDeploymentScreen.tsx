@@ -13,6 +13,8 @@ import {
   Switch,
   Alert,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../theme';
@@ -44,6 +46,82 @@ const commonHazards = [
   'Oil Well Fires',
 ];
 
+// Known military bases/FOBs for quick selection
+const knownLocations: Record<string, string[]> = {
+  'Afghanistan': [
+    'Bagram Airfield',
+    'Camp Leatherneck',
+    'Camp Dwyer',
+    'FOB Salerno',
+    'FOB Shank',
+    'FOB Sharana',
+    'Kandahar Airfield',
+    'Camp Bastion',
+    'Camp Phoenix',
+    'FOB Ghazni',
+  ],
+  'Iraq': [
+    'Al Asad Air Base',
+    'Camp Taji',
+    'Camp Victory',
+    'FOB Hammer',
+    'Camp Speicher',
+    'Camp Buehring (Kuwait staging)',
+    'Al Udeid Air Base (Qatar staging)',
+    'Camp Arifjan (Kuwait)',
+    'Joint Base Balad',
+    'Camp Fallujah',
+  ],
+  'Kuwait': [
+    'Camp Buehring',
+    'Camp Arifjan',
+    'Camp Patriot',
+    'Ali Al Salem Air Base',
+    'Camp Virginia',
+  ],
+  'Japan': [
+    'Camp Hansen',
+    'Camp Schwab',
+    'Camp Foster',
+    'Kadena Air Base',
+    'Camp Kinser',
+    'MCB Camp Butler',
+    'Yokota Air Base',
+    'Camp Zama',
+    'MCAS Iwakuni',
+    'Sasebo Naval Base',
+  ],
+  'South Korea': [
+    'Camp Humphreys',
+    'Camp Casey',
+    'Osan Air Base',
+    'Camp Red Cloud',
+    'Kunsan Air Base',
+    'Camp Stanley',
+  ],
+  'Germany': [
+    'Ramstein Air Base',
+    'Landstuhl Regional Medical Center',
+    'Grafenwöhr Training Area',
+    'Camp Vilseck',
+    'Baumholder',
+    'Spangdahlem Air Base',
+  ],
+  'Qatar': [
+    'Al Udeid Air Base',
+    'Camp As Sayliyah',
+  ],
+  'Djibouti': [
+    'Camp Lemonnier',
+  ],
+  'Syria': [
+    'Green Village',
+    'Al-Tanf Garrison',
+    'Mission Support Site Conoco',
+  ],
+  'Other': [],
+};
+
 const deploymentStatuses: { value: DeploymentStatus; label: string }[] = [
   { value: 'completed', label: 'Completed' },
   { value: 'active', label: 'Active' },
@@ -63,6 +141,8 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [specificLocation, setSpecificLocation] = useState('');
+  const [showLocationPicker, setShowLocationPicker] = useState(false);
+  const [customSpecificLocation, setCustomSpecificLocation] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [status, setStatus] = useState<DeploymentStatus>('completed');
@@ -104,10 +184,34 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
   }
 
   function addCustomHazard() {
-    if (customHazard.trim() && !hazards.includes(customHazard.trim())) {
-      setHazards([...hazards, customHazard.trim()]);
+    const trimmed = customHazard.trim();
+    if (trimmed && !hazards.includes(trimmed)) {
+      setHazards([...hazards, trimmed]);
       setCustomHazard('');
     }
+  }
+
+  function selectSpecificLocation(loc: string) {
+    if (loc === '__other__') {
+      setSpecificLocation('');
+      setShowLocationPicker(false);
+      // Let them type custom
+    } else {
+      setSpecificLocation(loc);
+      setShowLocationPicker(false);
+    }
+  }
+
+  // Get available locations for the selected country/region
+  function getAvailableLocations(): string[] {
+    if (!location) return [];
+    const locationLower = location.toLowerCase();
+    for (const [country, bases] of Object.entries(knownLocations)) {
+      if (locationLower.includes(country.toLowerCase()) || country.toLowerCase().includes(locationLower)) {
+        return bases;
+      }
+    }
+    return [];
   }
 
   function validate(): boolean {
@@ -117,7 +221,6 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
     if (!startDate) {
       newErrors.startDate = 'Required';
     }
-    // Validate end date is after start date
     if (endDate && startDate) {
       if (endDate <= startDate) {
         newErrors.endDate = 'End date must be after start date';
@@ -135,14 +238,16 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
       const profile = await database.getUserProfile();
       if (!profile) return;
 
+      const finalSpecificLocation = specificLocation || customSpecificLocation.trim() || undefined;
+
       const deployment: Deployment = {
         id: editId || generateId(),
         userId: profile.id,
         name: name.trim(),
         location: location.trim(),
-        specificLocation: specificLocation.trim() || undefined,
+        specificLocation: finalSpecificLocation,
         startDate,
-        endDate: endDate.trim() || undefined,
+        endDate: endDate || undefined,
         status,
         hazards,
         combatZone,
@@ -163,8 +268,14 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
     }
   }
 
+  const availableLocations = getAvailableLocations();
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={0}
+    >
       <StatusBar barStyle="light-content" />
 
       {/* Header */}
@@ -184,6 +295,7 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
         style={styles.form}
         contentContainerStyle={styles.formContent}
         keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="interactive"
       >
         {/* Basic Info */}
         <Text style={[typography.label, { color: theme.primary, marginBottom: spacing.md }]}>
@@ -202,18 +314,84 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
         <Input
           label="Location (Country/Region)"
           value={location}
-          onChangeText={setLocation}
+          onChangeText={(text) => {
+            setLocation(text);
+            setSpecificLocation(''); // Reset specific location when country changes
+          }}
           placeholder="Afghanistan, Iraq, Kuwait..."
           required
           error={errors.location}
         />
 
-        <Input
-          label="Specific Location (Base/FOB)"
-          value={specificLocation}
-          onChangeText={setSpecificLocation}
-          placeholder="FOB Salerno, Camp Buehring..."
-        />
+        {/* Specific Location — Searchable List */}
+        <Text style={[typography.label, { color: theme.textSecondary, marginBottom: spacing.sm }]}>
+          SPECIFIC LOCATION (BASE/FOB)
+        </Text>
+
+        {availableLocations.length > 0 ? (
+          <View style={{ marginBottom: spacing.md }}>
+            <TouchableOpacity
+              style={[styles.locationField, { backgroundColor: theme.surface, borderColor: specificLocation ? theme.primary : theme.border }]}
+              onPress={() => setShowLocationPicker(!showLocationPicker)}
+            >
+              <Ionicons name="location" size={18} color={specificLocation ? theme.primary : theme.textMuted} />
+              <Text style={[typography.body, { color: specificLocation ? theme.text : theme.textMuted, flex: 1 }]}>
+                {specificLocation || 'Select base/FOB...'}
+              </Text>
+              <Ionicons name={showLocationPicker ? 'chevron-up' : 'chevron-down'} size={18} color={theme.textMuted} />
+            </TouchableOpacity>
+
+            {showLocationPicker && (
+              <View style={[styles.locationDropdown, { backgroundColor: theme.surfaceElevated, borderColor: theme.border }]}>
+                {availableLocations.map((loc) => (
+                  <TouchableOpacity
+                    key={loc}
+                    style={[styles.locationOption, { borderBottomColor: theme.border }]}
+                    onPress={() => selectSpecificLocation(loc)}
+                  >
+                    <Ionicons
+                      name={specificLocation === loc ? 'radio-button-on' : 'radio-button-off'}
+                      size={16}
+                      color={specificLocation === loc ? theme.primary : theme.textMuted}
+                    />
+                    <Text style={[typography.bodySmall, { color: specificLocation === loc ? theme.primary : theme.text }]}>
+                      {loc}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+                <TouchableOpacity
+                  style={[styles.locationOption, { borderBottomWidth: 0 }]}
+                  onPress={() => selectSpecificLocation('__other__')}
+                >
+                  <Ionicons name="create-outline" size={16} color={theme.accent} />
+                  <Text style={[typography.bodySmall, { color: theme.accent, fontWeight: '600' }]}>
+                    Other (type custom)
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {!specificLocation && !showLocationPicker && (
+              <Input
+                label=""
+                value={customSpecificLocation}
+                onChangeText={setCustomSpecificLocation}
+                placeholder="Or type a custom location..."
+                containerStyle={{ marginTop: spacing.xs }}
+              />
+            )}
+          </View>
+        ) : (
+          <Input
+            value={specificLocation || customSpecificLocation}
+            onChangeText={(text) => {
+              setSpecificLocation('');
+              setCustomSpecificLocation(text);
+            }}
+            placeholder="FOB name, base, camp..."
+            containerStyle={{ marginBottom: spacing.md }}
+          />
+        )}
 
         {/* Status */}
         <Text style={[typography.label, { color: theme.textSecondary, marginBottom: spacing.sm }]}>
@@ -323,7 +501,7 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
           ENVIRONMENTAL HAZARDS & EXPOSURES
         </Text>
         <Text style={[typography.caption, { color: theme.textMuted, marginBottom: spacing.md }]}>
-          Select all hazards you were exposed to. This is critical for VA presumptive claims.
+          Select all hazards you were exposed to. Critical for VA presumptive claims.
         </Text>
 
         <View style={styles.hazardGrid}>
@@ -356,22 +534,44 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
         </View>
 
         {/* Custom hazard */}
-        <View style={styles.row}>
+        <View style={styles.customHazardRow}>
           <View style={{ flex: 1 }}>
             <Input
               label="Other Hazard"
               value={customHazard}
               onChangeText={setCustomHazard}
-              placeholder="Add custom hazard..."
+              placeholder="Type and tap + to add..."
+              returnKeyType="done"
+              onSubmitEditing={addCustomHazard}
             />
           </View>
           <TouchableOpacity
-            style={[styles.addBtn, { backgroundColor: theme.primary }]}
+            style={[styles.addBtn, { backgroundColor: customHazard.trim() ? theme.primary : theme.border }]}
             onPress={addCustomHazard}
+            disabled={!customHazard.trim()}
           >
             <Ionicons name="add" size={20} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
+
+        {/* Show custom hazards that were added */}
+        {hazards.filter((h) => !commonHazards.includes(h)).length > 0 && (
+          <View style={{ marginBottom: spacing.md }}>
+            <Text style={[typography.caption, { color: theme.textMuted, marginBottom: spacing.xs }]}>Custom hazards added:</Text>
+            <View style={styles.hazardGrid}>
+              {hazards.filter((h) => !commonHazards.includes(h)).map((hazard) => (
+                <TouchableOpacity
+                  key={hazard}
+                  style={[styles.hazardChip, { backgroundColor: theme.warning + '20', borderColor: theme.warning }]}
+                  onPress={() => toggleHazard(hazard)}
+                >
+                  <Ionicons name="close" size={12} color={theme.warning} />
+                  <Text style={[typography.caption, { color: theme.warning }]}>{hazard}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        )}
 
         {/* Notes */}
         <Input
@@ -383,7 +583,7 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
           numberOfLines={4}
         />
 
-        <View style={{ height: spacing.xl }} />
+        <View style={{ height: 100 }} />
       </ScrollView>
 
       {/* Save Button */}
@@ -398,7 +598,7 @@ export function AddDeploymentScreen({ navigation, route }: AddDeploymentScreenPr
           icon={<Ionicons name="checkmark-circle" size={20} color="#FFFFFF" />}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -432,7 +632,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: spacing.md,
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
   },
   statusRow: {
     flexDirection: 'row',
@@ -468,13 +668,46 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.full,
     borderWidth: 1.5,
   },
+  customHazardRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    alignItems: 'flex-end',
+    marginBottom: spacing.md,
+  },
   addBtn: {
     width: 44,
     height: 44,
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: spacing.md,
+    marginBottom: 16, // Align with input field
+  },
+  locationField: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderWidth: 1.5,
+    borderRadius: borderRadius.md,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    minHeight: 48,
+  },
+  locationDropdown: {
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderRadius: borderRadius.md,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    maxHeight: 250,
+    overflow: 'hidden',
+  },
+  locationOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 4,
+    borderBottomWidth: 1,
   },
   footer: {
     padding: spacing.lg,
