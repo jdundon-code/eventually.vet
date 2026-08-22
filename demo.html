@@ -180,6 +180,8 @@
       <li><i class="fas fa-globe"></i> <strong>Deployments</strong> — Hazard exposure tracking (PACT Act ready)</li>
       <li><i class="fas fa-building-flag"></i> <strong>Duty Stations</strong> — PCS timeline with supervisor info for buddy letters</li>
       <li><i class="fas fa-universal-access"></i> <strong>Accessible</strong> — WCAG 2.1 AA compliant, screen reader ready</li>
+      <li><i class="fas fa-crown"></i> <strong>Freemium</strong> — Core features free forever; Pro unlocks cloud, PDF, unlimited</li>
+      <li><i class="fas fa-lock"></i> <strong>HIPAA-Aligned</strong> — Biometric lock, audit logging, E2E encryption</li>
     </ul>
 
     <p class="nav-hint"><i class="fas fa-hand-pointer" style="color:#666;"></i> Click tabs on the phone or use buttons below to navigate.<br><i class="fas fa-palette" style="color:#666;"></i> Switch branches to change the entire color theme.</p>
@@ -192,6 +194,8 @@
       <button class="screen-btn" onclick="showScreen('screen-va')">VA Regs</button>
       <button class="screen-btn" onclick="showScreen('screen-resources')">Resources</button>
       <button class="screen-btn" onclick="showScreen('screen-cloud')">Cloud Backup</button>
+      <button class="screen-btn" onclick="showScreen('screen-paywall')">Subscription</button>
+      <button class="screen-btn" onclick="showScreen('screen-security')">Security</button>
     </div>
 
     <div class="branch-selector-demo">
@@ -217,7 +221,7 @@
               <div class="overline" id="dash-branch">MARINES</div>
               <div class="h2" id="dash-name">SGT Rodriguez</div>
             </div>
-            <div style="width:44px;height:44px;border-radius:22px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--primary);" onclick="showScreen('screen-cloud')"><i class="fas fa-cloud"></i></div>
+            <div style="width:44px;height:44px;border-radius:22px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--primary);" onclick="showScreen('screen-security')"><i class="fas fa-shield-halved"></i></div>
           </div>
           <div class="card" style="margin-bottom: 16px;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -250,7 +254,8 @@
         <!-- Feature Cards -->
         <div class="section-pad"><div class="h4" style="margin-bottom:12px;">Features</div></div>
         <div style="display:flex;gap:8px;padding:0 24px;overflow-x:auto;margin-bottom:24px;">
-          <div class="card" style="min-width:130px;text-align:center;" onclick="showScreen('screen-cloud')">
+          <div class="card" style="min-width:130px;text-align:center;position:relative;" onclick="showScreen('screen-cloud')">
+            <span style="position:absolute;top:-4px;right:-4px;background:#FFC107;color:#000;font-size:8px;font-weight:800;letter-spacing:0.8px;padding:2px 6px;border-radius:4px;z-index:1;">PRO</span>
             <i class="fas fa-shield-halved" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i>
             <div class="body-small" style="color:var(--text);font-weight:600;">Cloud Backup</div>
             <div class="caption">E2E Encrypted</div>
@@ -260,7 +265,8 @@
             <div class="body-small" style="color:var(--text);font-weight:600;">Buddy Letters</div>
             <div class="caption">Generate & Email</div>
           </div>
-          <div class="card" style="min-width:130px;text-align:center;" onclick="showScreen('screen-va')">
+          <div class="card" style="min-width:130px;text-align:center;position:relative;" onclick="showScreen('screen-va')">
+            <span style="position:absolute;top:-4px;right:-4px;background:#FFC107;color:#000;font-size:8px;font-weight:800;letter-spacing:0.8px;padding:2px 6px;border-radius:4px;z-index:1;">PRO</span>
             <i class="fas fa-scale-balanced" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i>
             <div class="body-small" style="color:var(--text);font-weight:600;">VA Presumptives</div>
             <div class="caption">Auto-Match</div>
@@ -566,8 +572,14 @@
         </div>
 
         <div style="padding:0 24px;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;">
-          <button class="btn btn-primary" onclick="alert('Encrypts all data with your password → uploads to Supabase. Only your password can decrypt it. Even the server cannot read your records.')"><i class="fas fa-cloud-arrow-up"></i> BACK UP NOW</button>
-          <button class="btn btn-outline"><i class="fas fa-cloud-arrow-down"></i> RESTORE FROM CLOUD</button>
+          <button class="btn btn-primary" onclick="showScreen('screen-paywall')"><i class="fas fa-cloud-arrow-up"></i> BACK UP NOW</button>
+          <button class="btn btn-outline" onclick="showScreen('screen-paywall')"><i class="fas fa-cloud-arrow-down"></i> RESTORE FROM CLOUD</button>
+          <!-- Feature Gate Example -->
+          <div style="margin-top:8px;display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1.5px solid rgba(255,193,7,0.4);background:var(--surface);cursor:pointer;" onclick="showScreen('screen-paywall')">
+            <div style="width:40px;height:40px;border-radius:20px;background:rgba(255,193,7,0.2);display:flex;align-items:center;justify-content:center;"><i class="fas fa-star" style="color:#FFC107;"></i></div>
+            <div style="flex:1;"><div style="font-weight:600;color:var(--text);font-size:14px;">Upgrade to Enable</div><div class="caption">Cloud backup requires Veteran Pro</div></div>
+            <div style="width:28px;height:28px;border-radius:14px;background:#FFC107;display:flex;align-items:center;justify-content:center;"><i class="fas fa-arrow-right" style="color:#FFF;font-size:12px;"></i></div>
+          </div>
         </div>
 
         <div class="section-pad"><div class="h4">Security</div></div>
@@ -576,6 +588,160 @@
           <div class="security-item"><i class="fas fa-key" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">You Hold the Key</div><div class="caption">Only your password can decrypt your data</div></div></div>
           <div class="security-item"><i class="fas fa-eye-slash" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">Zero Knowledge</div><div class="caption">Server cannot read your medical records</div></div></div>
           <div class="security-item" style="border-bottom:none;"><i class="fas fa-server" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">SOC 2 Infrastructure</div><div class="caption">Supabase hosted, compliant infrastructure</div></div></div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================ PAYWALL / SUBSCRIPTION ============================================================ -->
+    <div class="screen" id="screen-paywall">
+      <div class="list-header">
+        <div style="display:flex;align-items:center;gap:10px;"><i class="fas fa-chevron-left" style="cursor:pointer;color:var(--text);" onclick="showScreen('screen-dashboard')"></i><span class="h3">Choose Your Plan</span><span style="margin-left:auto;color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;">RESTORE</span></div>
+      </div>
+      <div class="screen-scroll">
+        <!-- Tier Tabs -->
+        <div style="display:flex;gap:8px;padding:16px 24px 0;">
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:12px;border:2px solid #FFC107;background:rgba(255,193,7,0.1);cursor:pointer;">
+            <i class="fas fa-star" style="color:#FFC107;"></i>
+            <span style="font-weight:700;color:#FFC107;">Veteran Pro</span>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:12px;border:2px solid var(--border);cursor:pointer;" onclick="this.style.borderColor='#FF6600';this.style.background='rgba(255,102,0,0.1)'">
+            <i class="fas fa-ribbon" style="color:#FF6600;"></i>
+            <span style="font-weight:700;color:var(--text-secondary);">Mission Ready</span>
+          </div>
+        </div>
+
+        <!-- Period Selection -->
+        <div style="display:flex;gap:8px;padding:16px 24px;">
+          <div style="flex:1;text-align:center;padding:14px;border-radius:12px;border:2px solid var(--border);background:var(--surface);">
+            <div style="font-weight:700;color:var(--text-secondary);">Monthly</div>
+            <div class="body-small" style="margin-top:2px;">$4.99/mo</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:14px;border-radius:12px;border:2px solid #FFC107;background:rgba(255,193,7,0.1);position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;background:#FFC107;padding:2px;text-align:center;"><span style="color:#000;font-size:8px;font-weight:800;letter-spacing:1px;">BEST VALUE</span></div>
+            <div style="font-weight:700;color:#FFC107;margin-top:4px;">Annual</div>
+            <div class="body-small" style="margin-top:2px;color:#FFC107;">$39.99/yr</div>
+            <div style="font-size:9px;font-weight:700;color:#FFC107;letter-spacing:1px;margin-top:4px;">SAVE 33%</div>
+          </div>
+        </div>
+
+        <!-- Feature List -->
+        <div style="padding:0 24px;">
+          <div class="label" style="color:var(--primary);margin-bottom:12px;">VETERAN PRO INCLUDES</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-cloud-arrow-up" style="color:#FFC107;width:18px;"></i><span class="body-small">End-to-end encrypted cloud backup</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-paperclip" style="color:#FFC107;width:18px;"></i><span class="body-small">Unlimited attachments & documents</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-envelope" style="color:#FFC107;width:18px;"></i><span class="body-small">Unlimited buddy letter requests</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-file-pdf" style="color:#FFC107;width:18px;"></i><span class="body-small">Professional PDF claim export</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-scale-balanced" style="color:#FFC107;width:18px;"></i><span class="body-small">Full VA presumptive database + filing guidance</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-bell" style="color:#FFC107;width:18px;"></i><span class="body-small">Auto-match alerts for new presumptives</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-mobile-screen" style="color:#FFC107;width:18px;"></i><span class="body-small">Multi-device sync</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-chart-line" style="color:#FFC107;width:18px;"></i><span class="body-small">Advanced per-condition claim scoring</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-link" style="color:#FFC107;width:18px;"></i><span class="body-small">Nexus connection helper</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><i class="fas fa-share-nodes" style="color:#FFC107;width:18px;"></i><span class="body-small">Export data package to VSO/attorney</span></div>
+          </div>
+        </div>
+
+        <!-- Always Free Section -->
+        <div style="margin:24px;padding:16px;border-radius:12px;background:var(--surface);border:1px solid var(--border);">
+          <div class="label" style="color:var(--text-muted);margin-bottom:8px;">ALWAYS FREE — NO SUBSCRIPTION NEEDED</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:var(--success);font-size:12px;width:14px;"></i><span class="body-small" style="color:var(--text-muted);">Unlimited appointment, deployment & duty station tracking</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:var(--success);font-size:12px;width:14px;"></i><span class="body-small" style="color:var(--text-muted);">Service condition logging & service-connection marking</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:var(--success);font-size:12px;width:14px;"></i><span class="body-small" style="color:var(--text-muted);">Calendar import & basic claim summary</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:var(--success);font-size:12px;width:14px;"></i><span class="body-small" style="color:var(--text-muted);">Branch theming, biometric lock, & on-device storage</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:var(--success);font-size:12px;width:14px;"></i><span class="body-small" style="color:var(--text-muted);">5 attachments & 1 buddy letter per month</span></div>
+          </div>
+        </div>
+
+        <!-- Trial + CTA -->
+        <div style="padding:0 24px 120px;">
+          <div style="text-align:center;margin-bottom:12px;"><span class="body-small" style="color:var(--primary);font-weight:600;cursor:pointer;">Start 7-Day Free Trial</span></div>
+          <button class="btn btn-primary" style="background:#FFC107;color:#000;" onclick="alert('In the live app, this opens the App Store / Google Play subscription flow.\n\nSubscription is managed entirely through Apple/Google — cancel anytime from your device settings.')">
+            <i class="fas fa-star"></i> SUBSCRIBE — $39.99/YR
+          </button>
+          <div class="caption" style="text-align:center;margin-top:8px;">Cancel anytime. Auto-renews unless cancelled.</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================ SECURITY SETTINGS ============================================================ -->
+    <div class="screen" id="screen-security">
+      <div class="list-header">
+        <div style="display:flex;align-items:center;gap:10px;"><i class="fas fa-chevron-left" style="cursor:pointer;color:var(--text);" onclick="showScreen('screen-dashboard')"></i><span class="h3">Security & Privacy</span></div>
+      </div>
+      <div class="screen-scroll">
+        <!-- Authentication -->
+        <div style="display:flex;align-items:center;gap:8px;padding:20px 24px 8px;"><i class="fas fa-shield-halved" style="color:var(--primary);"></i><span class="label" style="color:var(--primary);">AUTHENTICATION</span></div>
+        <div class="card" style="margin:0 24px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+            <div><div style="font-weight:600;color:var(--text);">Face ID</div><div class="caption">Require to open app</div></div>
+            <div style="width:44px;height:24px;border-radius:12px;background:var(--primary);position:relative;"><div style="width:20px;height:20px;border-radius:10px;background:#FFF;position:absolute;top:2px;right:2px;"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+            <div><div style="font-weight:600;color:var(--text);">Backup PIN</div><div class="caption">PIN is set</div></div>
+            <span style="color:var(--error);font-size:12px;font-weight:600;cursor:pointer;">REMOVE</span>
+          </div>
+          <div style="padding:12px 0;">
+            <div style="font-weight:600;color:var(--text);margin-bottom:4px;">Auto-Lock After</div>
+            <div class="caption" style="margin-bottom:8px;">Lock app after period of inactivity</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <span class="filter-tab" style="font-size:11px;">Immediately</span>
+              <span class="filter-tab" style="font-size:11px;">1 min</span>
+              <span class="filter-tab active" style="font-size:11px;">5 min</span>
+              <span class="filter-tab" style="font-size:11px;">15 min</span>
+              <span class="filter-tab" style="font-size:11px;">30 min</span>
+              <span class="filter-tab" style="font-size:11px;">Never</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Security -->
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 24px 8px;"><i class="fas fa-lock" style="color:var(--primary);"></i><span class="label" style="color:var(--primary);">ADDITIONAL SECURITY</span></div>
+        <div class="card" style="margin:0 24px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+            <div><div style="font-weight:600;color:var(--text);font-size:14px;">Lock When Backgrounded</div><div class="caption">Re-authenticate when returning</div></div>
+            <div style="width:44px;height:24px;border-radius:12px;background:var(--primary);position:relative;"><div style="width:20px;height:20px;border-radius:10px;background:#FFF;position:absolute;top:2px;right:2px;"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+            <div><div style="font-weight:600;color:var(--text);font-size:14px;">Require Auth for Export</div><div class="caption">Authenticate before sharing data</div></div>
+            <div style="width:44px;height:24px;border-radius:12px;background:var(--primary);position:relative;"><div style="width:20px;height:20px;border-radius:10px;background:#FFF;position:absolute;top:2px;right:2px;"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;">
+            <div><div style="font-weight:600;color:var(--text);font-size:14px;">Require Auth for Delete</div><div class="caption">Authenticate before deleting records</div></div>
+            <div style="width:44px;height:24px;border-radius:12px;background:var(--primary);position:relative;"><div style="width:20px;height:20px;border-radius:10px;background:#FFF;position:absolute;top:2px;right:2px;"></div></div>
+          </div>
+        </div>
+
+        <!-- Audit Log -->
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 24px 8px;"><i class="fas fa-file-lines" style="color:var(--primary);"></i><span class="label" style="color:var(--primary);">AUDIT LOG</span></div>
+        <div class="card" style="margin:0 24px 16px;cursor:pointer;" onclick="alert('Opens the full audit log viewer with category filters (Authentication, Data Access, Data Modification, Export, Cloud, Buddy Letters, Settings).\n\nAll PHI access, exports, and changes are tracked for compliance.')">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="flex:1;"><div style="font-weight:600;color:var(--text);">View Access Log</div><div class="caption">All data access, exports, and changes tracked</div><div class="caption" style="color:var(--text-secondary);margin-top:4px;">247 total &middot; 12 today</div></div>
+            <i class="fas fa-chevron-right" style="color:var(--text-muted);"></i>
+          </div>
+        </div>
+
+        <!-- HIPAA Notice -->
+        <div style="margin:16px 24px;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:flex-start;gap:12px;">
+          <i class="fas fa-circle-info" style="color:var(--info);margin-top:2px;"></i>
+          <div>
+            <div class="body-small" style="color:var(--text);font-weight:600;">HIPAA-Aligned Security</div>
+            <div class="caption" style="margin-top:4px;">Implements encryption at rest, encryption in transit, access controls, audit logging, and minimum necessary data handling — aligned with HIPAA standards.</div>
+          </div>
         </div>
       </div>
       <div class="tab-bar">
