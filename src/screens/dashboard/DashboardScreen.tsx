@@ -429,14 +429,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   statCard: {
-    flex: 1,
-    minWidth: '45%',
-    aspectRatio: 1,
+    width: '47%',
+    height: 100,
     borderRadius: borderRadius.lg,
-    padding: spacing.sm + 4,
+    padding: spacing.md,
     borderWidth: 1,
     alignItems: 'flex-start',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   claimHeader: {
     flexDirection: 'row',
