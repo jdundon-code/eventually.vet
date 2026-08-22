@@ -1,6 +1,8 @@
 // ============================================================================
 // EVENTUALLY.VET - App Navigator
 // Main navigation structure with bottom tabs and stack screens
+// All screens properly wired including Settings, Security, Buddy Letters,
+// VA Content, Resources, Cloud Backup, Paywall, and Privacy Policy
 // ============================================================================
 
 import React from 'react';
@@ -9,7 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme';
 
-// Screens
+// Core Screens
 import { DashboardScreen } from '../screens/dashboard/DashboardScreen';
 import { AppointmentsListScreen } from '../screens/appointments/AppointmentsListScreen';
 import { AddAppointmentScreen } from '../screens/appointments/AddAppointmentScreen';
@@ -23,6 +25,18 @@ import { CalendarImportScreen } from '../screens/calendar/CalendarImportScreen';
 import { AddNoteScreen } from '../screens/notes/AddNoteScreen';
 import { AddAttachmentScreen } from '../screens/notes/AddAttachmentScreen';
 import { AddConditionScreen } from '../screens/conditions/AddConditionScreen';
+
+// v2.0 Screens
+import { CloudBackupScreen } from '../screens/settings/CloudBackupScreen';
+import { SecuritySettingsScreen } from '../screens/settings/SecuritySettingsScreen';
+import { PrivacyPolicyScreen } from '../screens/settings/PrivacyPolicyScreen';
+import { BuddyLettersListScreen } from '../screens/buddyletters/BuddyLettersListScreen';
+import { CreateBuddyLetterScreen } from '../screens/buddyletters/CreateBuddyLetterScreen';
+import { BuddyLetterDetailScreen } from '../screens/buddyletters/BuddyLetterDetailScreen';
+import { VAContentScreen } from '../screens/vacontent/VAContentScreen';
+import { ResourcesListScreen } from '../screens/resources/ResourcesListScreen';
+import { ResourceDetailScreen } from '../screens/resources/ResourceDetailScreen';
+import { PaywallScreen } from '../screens/subscription/PaywallScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -149,25 +163,54 @@ function TabNavigator() {
   );
 }
 
-// === Root Stack (tabs + modal screens) ===
+// === Root Stack (tabs + all modal/push screens) ===
 
 export function AppNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={TabNavigator} />
-      {/* Modal / Push Screens */}
+
+      {/* Appointments */}
       <Stack.Screen name="AddAppointment" component={AddAppointmentScreen} />
       <Stack.Screen name="AppointmentDetail" component={AppointmentDetailScreen} />
+
+      {/* Deployments */}
       <Stack.Screen name="AddDeployment" component={AddDeploymentScreen} />
       <Stack.Screen name="DeploymentDetail" component={DeploymentsListScreen} />
+
+      {/* Duty Stations */}
       <Stack.Screen name="AddDutyStation" component={AddDutyStationScreen} />
       <Stack.Screen name="DutyStationDetail" component={DutyStationsListScreen} />
+
+      {/* Calendar */}
       <Stack.Screen name="CalendarImport" component={CalendarImportScreen} />
+
+      {/* Notes & Attachments */}
       <Stack.Screen name="AddNote" component={AddNoteScreen} />
       <Stack.Screen name="AddAttachment" component={AddAttachmentScreen} />
+
+      {/* Conditions */}
       <Stack.Screen name="AddCondition" component={AddConditionScreen} />
       <Stack.Screen name="Conditions" component={AddConditionScreen} />
-      <Stack.Screen name="Settings" component={DashboardScreen} />
+
+      {/* Settings & Security */}
+      <Stack.Screen name="Settings" component={SecuritySettingsScreen} />
+      <Stack.Screen name="Security" component={SecuritySettingsScreen} />
+      <Stack.Screen name="CloudBackup" component={CloudBackupScreen} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+
+      {/* Buddy Letters */}
+      <Stack.Screen name="BuddyLetters" component={BuddyLettersListScreen} />
+      <Stack.Screen name="CreateBuddyLetter" component={CreateBuddyLetterScreen} />
+      <Stack.Screen name="BuddyLetterDetail" component={BuddyLetterDetailScreen} />
+
+      {/* VA Content & Resources */}
+      <Stack.Screen name="VAContent" component={VAContentScreen} />
+      <Stack.Screen name="Resources" component={ResourcesListScreen} />
+      <Stack.Screen name="ResourceDetail" component={ResourceDetailScreen} />
+
+      {/* Subscription */}
+      <Stack.Screen name="Paywall" component={PaywallScreen} />
     </Stack.Navigator>
   );
 }

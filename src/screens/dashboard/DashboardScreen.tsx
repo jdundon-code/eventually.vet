@@ -93,10 +93,13 @@ export function DashboardScreen({ navigation }: any) {
           <View style={styles.headerTop}>
             <View>
               <Text style={[typography.overline, { color: theme.primary }]}>
-                {branchInfo?.shortName?.toUpperCase() || 'SERVICE'}
+                EVENTUALLY.VET
               </Text>
               <Text style={[typography.h2, { color: theme.text }]}>
                 {profile.rank ? `${profile.rank} ` : ''}{profile.lastName}
+              </Text>
+              <Text style={[typography.caption, { color: theme.textMuted }]}>
+                {branchInfo?.shortName?.toUpperCase() || 'SERVICE'}
               </Text>
             </View>
             <TouchableOpacity
@@ -324,8 +327,8 @@ function StatCard({
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <Ionicons name={icon as any} size={22} color={color} />
-      <Text style={[typography.h2, { color: theme.text, marginTop: spacing.xs }]}>
+      <Ionicons name={icon as any} size={20} color={color} />
+      <Text style={[typography.h3, { color: theme.text, marginTop: 2 }]}>
         {value}
       </Text>
       <Text style={[typography.caption, { color: theme.textMuted }]}>{label}</Text>
@@ -378,14 +381,14 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: spacing.lg,
-    paddingTop: 60,
-    paddingBottom: spacing.lg,
+    paddingTop: 56,
+    paddingBottom: spacing.md,
   },
   headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
   profileButton: {
     width: 44,
@@ -429,7 +432,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: '45%',
     borderRadius: borderRadius.lg,
-    padding: spacing.md,
+    padding: spacing.sm + 4,
     borderWidth: 1,
     alignItems: 'flex-start',
   },
@@ -488,17 +491,17 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   quickAction: {
-    width: 100,
+    width: 90,
     borderRadius: borderRadius.lg,
-    padding: spacing.md,
+    padding: spacing.sm + 2,
     alignItems: 'center',
     borderWidth: 1,
-    gap: spacing.sm,
+    gap: spacing.xs,
   },
   quickActionIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
