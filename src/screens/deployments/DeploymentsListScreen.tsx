@@ -146,7 +146,12 @@ export function DeploymentsListScreen({ navigation }: any) {
 
       {/* Header */}
       <View style={[styles.header, { borderBottomColor: theme.border }]}>
-        <Text style={[typography.h2, { color: theme.text }]}>Deployments</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={[typography.h2, { color: theme.text }]}>Deployments</Text>
+          <TouchableOpacity onPress={() => navigation.getParent()?.navigate('Home')} style={{ padding: 8 }}>
+            <Ionicons name="home-outline" size={22} color={theme.textMuted} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.headerStats}>
           <Text style={[typography.bodySmall, { color: theme.textSecondary }]}>
             {deployments.length} deployment{deployments.length !== 1 ? 's' : ''}

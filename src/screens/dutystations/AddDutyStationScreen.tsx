@@ -19,6 +19,7 @@ import { useTheme } from '../../theme';
 import { typography, spacing, borderRadius } from '../../theme';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
+import { DatePicker } from '../../components/common/DatePicker';
 import { database } from '../../services/database';
 import { DutyStation } from '../../models/types';
 import { generateId } from '../../utils/uuid';
@@ -75,10 +76,14 @@ export function AddDutyStationScreen({ navigation, route }: AddDutyStationScreen
     if (!name.trim()) newErrors.name = 'Required';
     if (!location.trim()) newErrors.location = 'Required';
     if (!unit.trim()) newErrors.unit = 'Required';
-    if (!startDate.trim()) {
+    if (!startDate) {
       newErrors.startDate = 'Required';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
-      newErrors.startDate = 'Use YYYY-MM-DD format';
+    }
+    // Validate end date is after start date
+    if (!isCurrent && endDate && startDate) {
+      if (endDate <= startDate) {
+        newErrors.endDate = 'End date must be after start date';
+      }
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -211,24 +216,26 @@ export function AddDutyStationScreen({ navigation, route }: AddDutyStationScreen
 
         <View style={styles.row}>
           <View style={{ flex: 1 }}>
-            <Input
+            <DatePicker
               label="PCS / Report Date"
               value={startDate}
-              onChangeText={setStartDate}
-              placeholder="2021-06-01"
+              onChange={setStartDate}
+              placeholder="Select date"
               required
               error={errors.startDate}
-              keyboardType="numbers-and-punctuation"
+              maximumDate={new Date()}
             />
           </View>
           {!isCurrent && (
             <View style={{ flex: 1 }}>
-              <Input
+              <DatePicker
                 label="Departure Date"
                 value={endDate}
-                onChangeText={setEndDate}
-                placeholder="2023-05-15"
-                keyboardType="numbers-and-punctuation"
+                onChange={setEndDate}
+                placeholder="Select date"
+                maximumDate={new Date()}
+                minimumDate={startDate ? new Date(startDate + 'T00:00:00') : undefined}
+                error={errors.endDate}
               />
             </View>
           )}

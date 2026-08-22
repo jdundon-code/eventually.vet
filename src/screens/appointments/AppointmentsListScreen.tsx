@@ -197,7 +197,12 @@ export function AppointmentsListScreen({ navigation }: any) {
         accessible={true}
         accessibilityRole="header"
       >
-        <Text style={[typography.h2, { color: theme.text }]}>Medical Appointments</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={[typography.h2, { color: theme.text }]}>Medical Appointments</Text>
+          <TouchableOpacity onPress={() => navigation.getParent()?.navigate('Home')} style={{ padding: 8 }}>
+            <Ionicons name="home-outline" size={22} color={theme.textMuted} />
+          </TouchableOpacity>
+        </View>
         <Text
           style={[typography.bodySmall, { color: theme.textSecondary }]}
           accessibilityLabel={`${appointments.length} total records. ${upcomingCount} upcoming, ${pastCount} past.`}

@@ -19,6 +19,7 @@ import { useTheme } from '../../theme';
 import { typography, spacing, borderRadius } from '../../theme';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
+import { DatePicker } from '../../components/common/DatePicker';
 import { database } from '../../services/database';
 import { MedicalAppointment, AppointmentType } from '../../models/types';
 import { generateId } from '../../utils/uuid';
@@ -236,14 +237,13 @@ export function AddAppointmentScreen({ navigation, route }: AddAppointmentScreen
           ))}
         </ScrollView>
 
-        <Input
+        <DatePicker
           label="Date"
           value={date}
-          onChangeText={setDate}
-          placeholder="2024-03-15"
+          onChange={setDate}
+          placeholder="Select appointment date"
           required
           error={errors.date}
-          keyboardType="numbers-and-punctuation"
         />
 
         <Input
@@ -336,12 +336,12 @@ export function AddAppointmentScreen({ navigation, route }: AddAppointmentScreen
         </View>
 
         {followUpRequired && (
-          <Input
+          <DatePicker
             label="Follow-Up Date"
             value={followUpDate}
-            onChangeText={setFollowUpDate}
-            placeholder="2024-04-15"
-            keyboardType="numbers-and-punctuation"
+            onChange={setFollowUpDate}
+            placeholder="Select follow-up date"
+            minimumDate={new Date()}
           />
         )}
 

@@ -123,7 +123,12 @@ export function DutyStationsListScreen({ navigation }: any) {
 
       {/* Header */}
       <View style={[styles.header, { borderBottomColor: theme.border }]}>
-        <Text style={[typography.h2, { color: theme.text }]}>Duty Stations</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={[typography.h2, { color: theme.text }]}>Duty Stations</Text>
+          <TouchableOpacity onPress={() => navigation.getParent()?.navigate('Home')} style={{ padding: 8 }}>
+            <Ionicons name="home-outline" size={22} color={theme.textMuted} />
+          </TouchableOpacity>
+        </View>
         <Text style={[typography.bodySmall, { color: theme.textSecondary }]}>
           {stations.length} station{stations.length !== 1 ? 's' : ''} — PCS History
         </Text>
