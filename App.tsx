@@ -1,16 +1,14 @@
 // ============================================================================
 // EVENTUALLY.VET
 // Your Service. Your Records. Your Future.
-//
-// A mobile app for active duty military members and veterans to track
-// medical appointments, deployments, duty stations, and build evidence
-// for VA disability claims.
 // ============================================================================
 
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 import { ThemeProvider } from './src/theme';
 import { AppNavigator } from './src/navigation/AppNavigator';
 import { OnboardingFlow } from './src/screens/onboarding/OnboardingFlow';
@@ -31,10 +29,15 @@ export default function App() {
 
   async function initializeApp() {
     try {
+      // Load icon fonts first
+      await Font.loadAsync({
+        ...Ionicons.font,
+      });
+
       // Initialize the database
       await database.initialize();
 
-      // Seed demo data on first launch (for prototype testing)
+      // Seed demo data on first launch
       const needsSeed = await shouldSeedData();
       if (needsSeed) {
         await seedDemoData();
@@ -50,7 +53,6 @@ export default function App() {
       setShowOnboarding(!settings.onboardingComplete);
     } catch (error) {
       console.error('Failed to initialize app:', error);
-      // Default to onboarding on error
       setShowOnboarding(true);
     } finally {
       setIsLoading(false);
@@ -61,7 +63,6 @@ export default function App() {
     setShowOnboarding(false);
   }
 
-  // Loading state
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
