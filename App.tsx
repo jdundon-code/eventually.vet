@@ -16,6 +16,10 @@ import { AppNavigator } from './src/navigation/AppNavigator';
 import { OnboardingFlow } from './src/screens/onboarding/OnboardingFlow';
 import { database } from './src/services/database';
 import { defaultTheme } from './src/theme';
+import { shouldSeedData, seedDemoData } from './src/services/seedData';
+import { biometricAuth } from './src/services/biometricAuth';
+import { subscriptionService } from './src/services/subscriptionService';
+import { vaContentService } from './src/services/vaContentService';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +33,17 @@ export default function App() {
     try {
       // Initialize the database
       await database.initialize();
+
+      // Seed demo data on first launch (for prototype testing)
+      const needsSeed = await shouldSeedData();
+      if (needsSeed) {
+        await seedDemoData();
+      }
+
+      // Initialize services
+      await biometricAuth.initialize();
+      await subscriptionService.initialize();
+      await vaContentService.initialize();
 
       // Check if onboarding is complete
       const settings = await database.getSettings();
