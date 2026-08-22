@@ -57,7 +57,7 @@ const categoryIcons: Record<PresumptiveCategory, string> = {
   neurological: 'flash',
   cardiovascular: 'heart',
   hearing: 'ear',
-  mental_health: 'brain',
+  mental_health: 'happy-outline',
   skin: 'finger-print',
   gastrointestinal: 'nutrition',
   reproductive: 'people',

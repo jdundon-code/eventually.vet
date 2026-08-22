@@ -49,7 +49,7 @@ const appointmentTypeLabels: Record<AppointmentType, string> = {
 
 const typeIcons: Record<AppointmentType, string> = {
   primary_care: 'medkit',
-  mental_health: 'brain',
+  mental_health: 'happy-outline',
   orthopedic: 'body',
   dental: 'happy',
   vision: 'eye',

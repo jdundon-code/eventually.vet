@@ -142,7 +142,7 @@ export function DashboardScreen({ navigation }: any) {
             value={stats?.totalAppointments || 0}
             color={theme.info}
             theme={theme}
-            onPress={() => navigation.navigate('Appointments')}
+            onPress={() => navigation.getParent()?.navigate('Appointments') || navigation.navigate('Appointments')}
           />
           <StatCard
             icon="globe"
@@ -150,7 +150,7 @@ export function DashboardScreen({ navigation }: any) {
             value={stats?.totalDeployments || 0}
             color={theme.warning}
             theme={theme}
-            onPress={() => navigation.navigate('Deployments')}
+            onPress={() => navigation.getParent()?.navigate('Deployments') || navigation.navigate('Deployments')}
           />
           <StatCard
             icon="business"
@@ -158,7 +158,7 @@ export function DashboardScreen({ navigation }: any) {
             value={stats?.totalDutyStations || 0}
             color={theme.success}
             theme={theme}
-            onPress={() => navigation.navigate('DutyStations')}
+            onPress={() => navigation.getParent()?.navigate('DutyStations') || navigation.navigate('DutyStations')}
           />
           <StatCard
             icon="fitness"
@@ -166,7 +166,7 @@ export function DashboardScreen({ navigation }: any) {
             value={stats?.totalConditions || 0}
             color={theme.error}
             theme={theme}
-            onPress={() => navigation.navigate('Conditions')}
+            onPress={() => navigation.navigate('AddCondition')}
           />
         </View>
 
