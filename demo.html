@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EVENTUALLY.VET — Interactive Demo v2.0</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     /* ============================================================
-       EVENTUALLY.VET — Interactive Demo v2.0 for Chromebook
-       Now includes: Cloud Backup, Buddy Letters, VA Regulations,
-       Resources Directory, and Updated Appointment Filters
+       EVENTUALLY.VET — Interactive Demo v2.0
+       Professional VA claim documentation app
+       Font Awesome icons throughout
        ============================================================ */
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -64,9 +65,7 @@
     .screen-scroll::-webkit-scrollbar { width: 3px; }
     .screen-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-    /* Typography */
     .overline { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary); }
-    .h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
     .h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
     .h3 { font-size: 20px; font-weight: 600; color: var(--text); }
     .h4 { font-size: 17px; font-weight: 600; color: var(--text); }
@@ -75,45 +74,40 @@
     .caption { font-size: 12px; color: var(--text-muted); }
     .label { font-size: 12px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-secondary); }
 
-    /* Components */
-    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 8px; font-size: 15px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.2s; width: 100%; }
     .btn:hover { opacity: 0.85; transform: translateY(-1px); }
     .btn-primary { background: var(--primary); color: #FFF; }
     .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-    .btn-sm { padding: 8px 16px; font-size: 13px; }
 
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
     .card:hover { border-color: var(--primary); transform: translateY(-1px); }
     .card-elevated { background: var(--surface-elevated); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 
     .tab-bar { display: flex; background: var(--surface); border-top: 1px solid var(--border); padding: 8px 0 25px; position: absolute; bottom: 0; left: 0; right: 0; }
-    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 0; color: var(--text-muted); transition: color 0.2s; }
+    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 0; color: var(--text-muted); transition: color 0.2s; font-size: 16px; }
     .tab-item.active { color: var(--primary); }
-    .tab-item svg { width: 22px; height: 22px; }
     .tab-item span { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
 
-    .fab { position: absolute; bottom: 100px; right: 24px; width: 56px; height: 56px; border-radius: 28px; background: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: all 0.2s; z-index: 10; }
+    .fab { position: absolute; bottom: 100px; right: 24px; width: 56px; height: 56px; border-radius: 28px; background: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: all 0.2s; z-index: 10; color: #FFF; font-size: 22px; }
     .fab:hover { transform: scale(1.1); }
-    .fab svg { width: 28px; height: 28px; color: #FFF; }
 
-    .filter-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-    .filter-tab { padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .filter-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .filter-tab { padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
     .filter-tab.active { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }
     .filter-tab.active-info { border-color: var(--info); background: color-mix(in srgb, var(--info) 15%, transparent); color: var(--info); }
     .filter-tab.active-warning { border-color: var(--warning); background: color-mix(in srgb, var(--warning) 15%, transparent); color: var(--warning); }
 
-    .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 4px; }
+    .badge { padding: 2px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; letter-spacing: 0.8px; display: inline-flex; align-items: center; gap: 4px; }
     .badge-sc { background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); }
     .badge-upcoming { background: color-mix(in srgb, var(--info) 20%, transparent); color: var(--info); }
     .badge-free { background: color-mix(in srgb, var(--success) 20%, transparent); color: var(--success); }
-    .badge-paid { background: color-mix(in srgb, var(--error) 20%, transparent); color: var(--error); }
-    .badge-contingency { background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); }
     .badge-pact { background: color-mix(in srgb, var(--success) 20%, transparent); color: var(--success); }
     .badge-combat { background: color-mix(in srgb, var(--error) 20%, transparent); color: var(--error); }
 
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 24px; margin-bottom: 24px; }
     .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
     .stat-card:hover { border-color: var(--primary); }
+    .stat-card i { font-size: 18px; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--text); margin-top: 4px; }
     .stat-label { font-size: 12px; color: var(--text-muted); }
 
@@ -121,56 +115,45 @@
     .list-header { padding: 50px 24px 12px; border-bottom: 1px solid var(--border); }
     .item-list { padding: 12px 24px; display: flex; flex-direction: column; gap: 8px; }
     .item-row { display: flex; align-items: center; gap: 12px; }
-    .item-icon { width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .item-icon { width: 40px; height: 40px; border-radius: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
     .item-info { flex: 1; min-width: 0; }
     .item-title { font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .item-meta { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
     .item-detail { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
-    /* Stars */
-    .stars { display: inline-flex; gap: 1px; }
-    .star { color: #FFC107; font-size: 14px; }
-    .star-empty { color: var(--text-muted); font-size: 14px; }
-
-    /* Progress bar */
     .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
     .progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
 
-    /* Pipeline */
-    .pipeline { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
+    .pipeline { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; }
     .pipeline-step { text-align: center; }
-    .pipeline-dot { width: 28px; height: 28px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-size: 12px; }
-    .pipeline-line { width: 24px; height: 2px; margin-bottom: 16px; }
+    .pipeline-dot { width: 28px; height: 28px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-size: 11px; color: #FFF; }
+    .pipeline-line { width: 20px; height: 2px; margin-bottom: 16px; }
 
-    /* Hazard tags */
     .hazard-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-    .hazard-tag { display: flex; align-items: center; gap: 3px; background: color-mix(in srgb, var(--warning) 15%, transparent); border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent); color: var(--warning); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+    .hazard-tag { display: flex; align-items: center; gap: 4px; background: color-mix(in srgb, var(--warning) 15%, transparent); border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent); color: var(--warning); font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
 
-    /* Match banner */
-    .match-banner { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 8px; background: color-mix(in srgb, var(--warning) 8%, transparent); margin-bottom: 12px; border: 1px solid color-mix(in srgb, var(--warning) 20%, transparent); }
+    .match-banner { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 8px; background: color-mix(in srgb, var(--warning) 8%, transparent); margin-bottom: 12px; border: 1px solid color-mix(in srgb, var(--warning) 20%, transparent); }
 
-    /* Cloud status */
     .cloud-status { display: flex; align-items: center; gap: 12px; }
-    .cloud-icon { width: 48px; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; }
-
-    /* Security items */
+    .cloud-icon { width: 48px; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     .security-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
     .security-item:last-child { border-bottom: none; }
+    .security-item i { width: 20px; text-align: center; }
 
-    /* Resource card extras */
     .cost-badge { display: flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; border: 1px solid; font-size: 10px; font-weight: 700; }
     .specialties-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
     .spec-tag { padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface); font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+    .stars { color: #FFC107; font-size: 12px; letter-spacing: 1px; }
+    .stars-empty { color: var(--text-muted); }
 
-    /* Layout helpers */
     .demo-container { display: flex; gap: 40px; align-items: center; }
-    .info-panel { max-width: 400px; display: none; }
+    .info-panel { max-width: 420px; display: none; }
     @media (min-width: 900px) { .info-panel { display: block; } }
     .info-panel h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; color: #FFF; }
     .info-panel .subtitle { font-size: 18px; color: #999; margin-bottom: 24px; }
     .info-panel .feature-list { list-style: none; }
-    .info-panel .feature-list li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; color: #CCC; font-size: 14px; line-height: 1.5; }
-    .info-panel .feature-list li .emoji { font-size: 18px; flex-shrink: 0; }
+    .info-panel .feature-list li { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; color: #CCC; font-size: 14px; line-height: 1.5; }
+    .info-panel .feature-list li i { color: var(--primary); width: 18px; text-align: center; margin-top: 3px; flex-shrink: 0; }
     .branch-selector-demo { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
     .branch-btn-demo { padding: 8px 14px; border-radius: 999px; border: 1.5px solid #333; background: #111; color: #AAA; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .branch-btn-demo:hover, .branch-btn-demo.active { border-color: var(--primary); color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, transparent); }
@@ -189,17 +172,17 @@
     <p class="subtitle">v2.0 — Your Service. Your Records. Your Future.</p>
 
     <ul class="feature-list">
-      <li><span class="emoji">☁️</span> <strong>Cloud Backup</strong> — End-to-end encrypted sync, restore to new device</li>
-      <li><span class="emoji">📝</span> <strong>Buddy Letters</strong> — Generate VA-compliant statements, email, track pipeline</li>
-      <li><span class="emoji">⚖️</span> <strong>VA Regulations</strong> — 18 presumptive conditions, auto-match exposures, PACT Act</li>
-      <li><span class="emoji">⭐</span> <strong>Resources</strong> — VSOs, attorneys, Vet Centers with veteran ratings</li>
-      <li><span class="emoji">🏥</span> <strong>Medical Tracking</strong> — Past/upcoming filters, service-connection flags</li>
-      <li><span class="emoji">🌍</span> <strong>Deployments</strong> — Hazard exposure tracking (PACT Act ready)</li>
-      <li><span class="emoji">🏢</span> <strong>Duty Stations</strong> — PCS timeline with supervisor info</li>
-      <li><span class="emoji">♿</span> <strong>Accessible</strong> — WCAG 2.1 AA compliant, screen reader ready</li>
+      <li><i class="fas fa-cloud-arrow-up"></i> <strong>Cloud Backup</strong> — End-to-end encrypted sync, restore to any device</li>
+      <li><i class="fas fa-file-signature"></i> <strong>Buddy Letters</strong> — Generate VA-compliant statements, email & track</li>
+      <li><i class="fas fa-scale-balanced"></i> <strong>VA Regulations</strong> — 18 presumptive conditions, auto-match your exposures</li>
+      <li><i class="fas fa-star"></i> <strong>Resources</strong> — VSOs, attorneys, Vet Centers rated by veterans</li>
+      <li><i class="fas fa-stethoscope"></i> <strong>Medical Tracking</strong> — Past/upcoming filters, service-connection flags</li>
+      <li><i class="fas fa-globe"></i> <strong>Deployments</strong> — Hazard exposure tracking (PACT Act ready)</li>
+      <li><i class="fas fa-building-flag"></i> <strong>Duty Stations</strong> — PCS timeline with supervisor info for buddy letters</li>
+      <li><i class="fas fa-universal-access"></i> <strong>Accessible</strong> — WCAG 2.1 AA compliant, screen reader ready</li>
     </ul>
 
-    <p class="nav-hint">👆 Click tabs on the phone or use buttons below to navigate.<br>🎨 Switch branches to change the entire color theme.</p>
+    <p class="nav-hint"><i class="fas fa-hand-pointer" style="color:#666;"></i> Click tabs on the phone or use buttons below to navigate.<br><i class="fas fa-palette" style="color:#666;"></i> Switch branches to change the entire color theme.</p>
 
     <div class="screen-nav">
       <button class="screen-btn" onclick="showScreen('screen-dashboard')">Dashboard</button>
@@ -225,9 +208,7 @@
   <div class="phone-frame theme-marines" id="phone">
     <div class="phone-notch"></div>
 
-    <!-- ============================================================
-         DASHBOARD
-         ============================================================ -->
+    <!-- ============================================================ DASHBOARD ============================================================ -->
     <div class="screen active" id="screen-dashboard">
       <div class="screen-scroll">
         <div style="padding: 50px 24px 16px;">
@@ -236,80 +217,75 @@
               <div class="overline" id="dash-branch">MARINES</div>
               <div class="h2" id="dash-name">SGT Rodriguez</div>
             </div>
-            <div style="width:44px;height:44px;border-radius:22px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showScreen('screen-cloud')">☁️</div>
+            <div style="width:44px;height:44px;border-radius:22px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--primary);" onclick="showScreen('screen-cloud')"><i class="fas fa-cloud"></i></div>
           </div>
           <div class="card" style="margin-bottom: 16px;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--primary)">🌐</span><span class="body-small" id="dash-branch-full">United States Marine Corps</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-globe" style="color:var(--primary);"></i><span class="body-small" id="dash-branch-full">United States Marine Corps</span></div>
               <span class="body-small" style="color:var(--accent)">6 yrs, 3 mo</span>
             </div>
             <div style="display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
-              <span style="font-size:14px;">📍</span><span class="body-small">Camp Pendleton — 1st MarDiv, 1/5</span>
+              <i class="fas fa-location-dot" style="color:var(--text-muted);font-size:13px;"></i><span class="body-small">Camp Pendleton — 1st MarDiv, 1/5</span>
             </div>
           </div>
         </div>
 
         <div class="stats-grid">
-          <div class="stat-card" onclick="showScreen('screen-appointments')">🏥<div class="stat-value">23</div><div class="stat-label">Appointments</div></div>
-          <div class="stat-card" onclick="showScreen('screen-deployments')">🌍<div class="stat-value">3</div><div class="stat-label">Deployments</div></div>
-          <div class="stat-card" onclick="showScreen('screen-buddy')">📝<div class="stat-value">4</div><div class="stat-label">Buddy Letters</div></div>
-          <div class="stat-card" onclick="showScreen('screen-va')">⚖️<div class="stat-value">6</div><div class="stat-label">Matched Conditions</div></div>
+          <div class="stat-card" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope" style="color:var(--info);"></i><div class="stat-value">23</div><div class="stat-label">Appointments</div></div>
+          <div class="stat-card" onclick="showScreen('screen-deployments')"><i class="fas fa-globe" style="color:var(--warning);"></i><div class="stat-value">3</div><div class="stat-label">Deployments</div></div>
+          <div class="stat-card" onclick="showScreen('screen-buddy')"><i class="fas fa-file-signature" style="color:var(--success);"></i><div class="stat-value">4</div><div class="stat-label">Buddy Letters</div></div>
+          <div class="stat-card" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced" style="color:var(--error);"></i><div class="stat-value">6</div><div class="stat-label">Matched Conditions</div></div>
         </div>
 
         <!-- VA Claim Readiness -->
         <div class="card card-elevated" style="margin: 0 24px 24px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <div style="display:flex;align-items:center;gap:8px;"><span>📋</span><span class="h4">VA Claim Readiness</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><i class="fas fa-clipboard-check" style="color:var(--primary);"></i><span class="h4">VA Claim Readiness</span></div>
             <span style="background:color-mix(in srgb, var(--info) 20%, transparent);color:var(--info);font-size:20px;font-weight:700;padding:4px 12px;border-radius:8px;">72%</span>
           </div>
           <div class="progress-bar"><div class="progress-fill" style="width:72%;background:var(--info);"></div></div>
           <div class="caption" style="margin-top:8px;">Strong documentation. Keep adding details to strengthen your claim.</div>
         </div>
 
-        <!-- New Feature Highlights -->
-        <div class="section-pad">
-          <div class="h4" style="margin-bottom: 12px;">New in v2.0</div>
-        </div>
+        <!-- Feature Cards -->
+        <div class="section-pad"><div class="h4" style="margin-bottom:12px;">Features</div></div>
         <div style="display:flex;gap:8px;padding:0 24px;overflow-x:auto;margin-bottom:24px;">
-          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-cloud')">
-            <div style="font-size:28px;margin-bottom:8px;">☁️</div>
+          <div class="card" style="min-width:130px;text-align:center;" onclick="showScreen('screen-cloud')">
+            <i class="fas fa-shield-halved" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i>
             <div class="body-small" style="color:var(--text);font-weight:600;">Cloud Backup</div>
             <div class="caption">E2E Encrypted</div>
           </div>
-          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-buddy')">
-            <div style="font-size:28px;margin-bottom:8px;">📝</div>
+          <div class="card" style="min-width:130px;text-align:center;" onclick="showScreen('screen-buddy')">
+            <i class="fas fa-file-signature" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i>
             <div class="body-small" style="color:var(--text);font-weight:600;">Buddy Letters</div>
             <div class="caption">Generate & Email</div>
           </div>
-          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-va')">
-            <div style="font-size:28px;margin-bottom:8px;">⚖️</div>
+          <div class="card" style="min-width:130px;text-align:center;" onclick="showScreen('screen-va')">
+            <i class="fas fa-scale-balanced" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i>
             <div class="body-small" style="color:var(--text);font-weight:600;">VA Presumptives</div>
             <div class="caption">Auto-Match</div>
           </div>
-          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-resources')">
-            <div style="font-size:28px;margin-bottom:8px;">⭐</div>
+          <div class="card" style="min-width:130px;text-align:center;" onclick="showScreen('screen-resources')">
+            <i class="fas fa-star" style="font-size:24px;color:var(--primary);margin-bottom:8px;display:block;"></i>
             <div class="body-small" style="color:var(--text);font-weight:600;">Resources</div>
             <div class="caption">Veteran Rated</div>
           </div>
         </div>
       </div>
-
       <div class="tab-bar">
-        <div class="tab-item active" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
-    <!-- ============================================================
-         APPOINTMENTS (with Past/Upcoming filters)
-         ============================================================ -->
+    <!-- ============================================================ APPOINTMENTS ============================================================ -->
     <div class="screen" id="screen-appointments">
       <div class="list-header">
         <div class="h2">Medical Appointments</div>
-        <div class="body-small" style="margin-top:4px;">23 total records • 5 upcoming</div>
+        <div class="body-small" style="margin-top:4px;">23 total records &middot; 5 upcoming</div>
         <div class="filter-row">
           <div class="filter-tab active">All (23)</div>
           <div class="filter-tab active-info">Upcoming (5)</div>
@@ -322,26 +298,24 @@
       </div>
       <div class="screen-scroll">
         <div class="item-list">
-          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">🦵</div><div class="item-info"><div class="item-title">Knee Follow-Up</div><div class="item-meta">Dr. Martinez • Naval Hospital Camp Pendleton</div><div class="item-detail" style="color:var(--info);">Aug 28, 2026 • Orthopedic</div></div><div><span class="badge badge-upcoming">UPCOMING</span><br><span class="badge badge-sc" style="margin-top:4px;">SC</span></div></div></div>
-          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">🧠</div><div class="item-info"><div class="item-title">Mental Health - PTSD</div><div class="item-meta">Dr. Chen • Behavioral Health Clinic</div><div class="item-detail" style="color:var(--info);">Aug 22, 2026 • Mental Health</div></div><div><span class="badge badge-upcoming">UPCOMING</span><br><span class="badge badge-sc" style="margin-top:4px;">SC</span></div></div></div>
-          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">👂</div><div class="item-info"><div class="item-title">Audiology - Tinnitus Eval</div><div class="item-meta">Dr. Patel • Audiology Clinic</div><div class="item-detail">Jul 22, 2026 • Audiology</div></div><span class="badge badge-sc">SC</span></div></div>
-          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">🩺</div><div class="item-info"><div class="item-title">Annual Physical</div><div class="item-meta">Dr. Williams • Primary Care</div><div class="item-detail">Jul 10, 2026 • Primary Care</div></div></div></div>
-          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">📷</div><div class="item-info"><div class="item-title">Lower Back MRI</div><div class="item-meta">Dr. Kim • Radiology Dept</div><div class="item-detail">Jun 28, 2026 • Radiology</div></div><span class="badge badge-sc">SC</span></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-bone"></i></div><div class="item-info"><div class="item-title">Knee Follow-Up</div><div class="item-meta">Dr. Martinez &middot; Naval Hospital Camp Pendleton</div><div class="item-detail" style="color:var(--info);">Aug 28, 2026 &middot; Orthopedic</div></div><div style="text-align:right;"><span class="badge badge-upcoming">UPCOMING</span><br><span class="badge badge-sc" style="margin-top:4px;">SC</span></div></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-brain"></i></div><div class="item-info"><div class="item-title">Mental Health - PTSD</div><div class="item-meta">Dr. Chen &middot; Behavioral Health Clinic</div><div class="item-detail" style="color:var(--info);">Aug 22, 2026 &middot; Mental Health</div></div><div style="text-align:right;"><span class="badge badge-upcoming">UPCOMING</span><br><span class="badge badge-sc" style="margin-top:4px;">SC</span></div></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-ear-listen"></i></div><div class="item-info"><div class="item-title">Audiology - Tinnitus Eval</div><div class="item-meta">Dr. Patel &middot; Audiology Clinic</div><div class="item-detail">Jul 22, 2026 &middot; Audiology</div></div><span class="badge badge-sc">SC</span></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-heart-pulse"></i></div><div class="item-info"><div class="item-title">Annual Physical</div><div class="item-meta">Dr. Williams &middot; Primary Care</div><div class="item-detail">Jul 10, 2026 &middot; Primary Care</div></div></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-x-ray"></i></div><div class="item-info"><div class="item-title">Lower Back MRI</div><div class="item-meta">Dr. Kim &middot; Radiology Dept</div><div class="item-detail">Jun 28, 2026 &middot; Radiology</div></div><span class="badge badge-sc">SC</span></div></div>
         </div>
       </div>
-      <div class="fab" onclick="alert('Opens appointment form: Title, Type (17 specialties), Date, Provider, Facility, Chief Complaint, Diagnosis, Treatment, Medications, Follow-up, Service-Connection, Notes')">➕</div>
+      <div class="fab" onclick="alert('Opens appointment form: Title, Type (17 specialties), Date, Provider, Facility, Chief Complaint, Diagnosis, Treatment, Medications, Follow-up, Service-Connection, Notes')"><i class="fas fa-plus"></i></div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
-    <!-- ============================================================
-         DEPLOYMENTS
-         ============================================================ -->
+    <!-- ============================================================ DEPLOYMENTS ============================================================ -->
     <div class="screen" id="screen-deployments">
       <div class="list-header">
         <div class="h2">Deployments</div>
@@ -350,115 +324,84 @@
       <div class="screen-scroll">
         <div class="item-list">
           <div class="card">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">OIR — Op Inherent Resolve</span><span class="badge badge-combat">⚠ COMBAT</span></div>
-            <div style="padding-left:16px;" class="body-small">📍 Iraq — Al Asad Air Base<br>🕐 Jan 2024 – Aug 2024 (210 days)</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">OIR — Op Inherent Resolve</span><span class="badge badge-combat"><i class="fas fa-triangle-exclamation" style="font-size:9px;"></i> COMBAT</span></div>
+            <div style="padding-left:16px;" class="body-small"><i class="fas fa-location-dot" style="color:var(--text-muted);width:14px;"></i> Iraq — Al Asad Air Base<br><i class="fas fa-clock" style="color:var(--text-muted);width:14px;"></i> Jan 2024 – Aug 2024 (210 days)</div>
             <div class="hazard-row" style="padding-left:16px;">
-              <span class="hazard-tag">⚠ BURN PITS</span><span class="hazard-tag">⚠ NOISE</span><span class="hazard-tag">⚠ SAND/DUST</span>
+              <span class="hazard-tag"><i class="fas fa-fire"></i> BURN PITS</span><span class="hazard-tag"><i class="fas fa-volume-high"></i> NOISE</span><span class="hazard-tag"><i class="fas fa-wind"></i> SAND/DUST</span>
             </div>
           </div>
           <div class="card">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">OFS — Freedom's Sentinel</span><span class="badge badge-combat">⚠ COMBAT</span></div>
-            <div style="padding-left:16px;" class="body-small">📍 Afghanistan — Camp Leatherneck<br>🕐 Mar 2022 – Oct 2022 (212 days)</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">OFS — Freedom's Sentinel</span><span class="badge badge-combat"><i class="fas fa-triangle-exclamation" style="font-size:9px;"></i> COMBAT</span></div>
+            <div style="padding-left:16px;" class="body-small"><i class="fas fa-location-dot" style="color:var(--text-muted);width:14px;"></i> Afghanistan — Camp Leatherneck<br><i class="fas fa-clock" style="color:var(--text-muted);width:14px;"></i> Mar 2022 – Oct 2022 (212 days)</div>
             <div class="hazard-row" style="padding-left:16px;">
-              <span class="hazard-tag">⚠ BURN PITS</span><span class="hazard-tag">⚠ HEAT</span><span class="hazard-tag">⚠ NOISE</span><span class="hazard-tag">⚠ CHEMICALS</span>
+              <span class="hazard-tag"><i class="fas fa-fire"></i> BURN PITS</span><span class="hazard-tag"><i class="fas fa-temperature-high"></i> HEAT</span><span class="hazard-tag"><i class="fas fa-volume-high"></i> NOISE</span><span class="hazard-tag"><i class="fas fa-flask"></i> CHEMICALS</span>
             </div>
           </div>
           <div class="card">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">UDP — Okinawa</span></div>
-            <div style="padding-left:16px;" class="body-small">📍 Japan — Camp Hansen<br>🕐 Sep 2021 – Dec 2021 (65 days)</div>
-            <div class="hazard-row" style="padding-left:16px;"><span class="hazard-tag">⚠ PFAS/AFFF</span></div>
+            <div style="padding-left:16px;" class="body-small"><i class="fas fa-location-dot" style="color:var(--text-muted);width:14px;"></i> Japan — Camp Hansen<br><i class="fas fa-clock" style="color:var(--text-muted);width:14px;"></i> Sep 2021 – Dec 2021 (65 days)</div>
+            <div class="hazard-row" style="padding-left:16px;"><span class="hazard-tag"><i class="fas fa-droplet"></i> PFAS/AFFF</span></div>
           </div>
         </div>
       </div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
-    <!-- ============================================================
-         BUDDY LETTERS (NEW)
-         ============================================================ -->
+    <!-- ============================================================ BUDDY LETTERS ============================================================ -->
     <div class="screen" id="screen-buddy">
       <div class="list-header">
-        <div style="display:flex;align-items:center;gap:8px;"><span style="cursor:pointer;font-size:20px;" onclick="showScreen('screen-dashboard')">←</span><span class="h3">Buddy Letters</span></div>
-        <div class="body-small" style="margin-top:4px;">Request statements from fellow service members</div>
+        <div style="display:flex;align-items:center;gap:10px;"><i class="fas fa-chevron-left" style="cursor:pointer;color:var(--text);" onclick="showScreen('screen-dashboard')"></i><span class="h3">Buddy Letters</span></div>
+        <div class="body-small" style="margin-top:4px;">Request lay statements from fellow service members</div>
         <div class="pipeline">
-          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--text-muted);color:#fff;">1</div><div class="caption">Draft</div></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--text-muted);"><i class="fas fa-pen" style="font-size:10px;"></i></div><div class="caption">Draft</div></div>
           <div class="pipeline-line" style="background:var(--info);"></div>
-          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--info);color:#fff;">2</div><div class="caption">Sent</div></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--info);"><i class="fas fa-paper-plane" style="font-size:10px;"></i></div><div class="caption">Sent</div></div>
           <div class="pipeline-line" style="background:var(--warning);"></div>
-          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--warning);color:#fff;">1</div><div class="caption">Received</div></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--warning);"><i class="fas fa-inbox" style="font-size:10px;"></i></div><div class="caption">Received</div></div>
           <div class="pipeline-line" style="background:var(--success);"></div>
-          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--success);color:#fff;">1</div><div class="caption">Attached</div></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--success);"><i class="fas fa-paperclip" style="font-size:10px;"></i></div><div class="caption">Attached</div></div>
         </div>
       </div>
       <div class="screen-scroll">
         <div class="item-list">
-          <div class="card">
-            <div class="item-row">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">✅</div>
-              <div class="item-info"><div class="item-title">SSG Johnson</div><div class="item-meta">Re: PTSD</div><div class="item-detail">Fellow squad member • Attached Aug 1</div></div>
-              <span class="badge badge-free">ATTACHED</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="item-row">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--warning) 20%, transparent);">📬</div>
-              <div class="item-info"><div class="item-title">CPL Martinez</div><div class="item-meta">Re: Knee Injury</div><div class="item-detail">Battle buddy • Received Jul 28</div></div>
-              <span class="badge badge-contingency">RECEIVED</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="item-row">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--info) 20%, transparent);">📤</div>
-              <div class="item-info"><div class="item-title">SGT Williams</div><div class="item-meta">Re: Tinnitus</div><div class="item-detail">Platoon mate • Sent Jul 15</div></div>
-              <span class="badge badge-upcoming">SENT</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="item-row">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--text-muted) 20%, transparent);">📄</div>
-              <div class="item-info"><div class="item-title">LCpl Davis</div><div class="item-meta">Re: Lower Back Pain</div><div class="item-detail">Roommate • Created Jul 20</div></div>
-              <span class="badge" style="background:var(--surface);color:var(--text-muted);border:1px solid var(--border);">DRAFT</span>
-            </div>
-          </div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);color:var(--success);"><i class="fas fa-check-circle"></i></div><div class="item-info"><div class="item-title">SSG Johnson</div><div class="item-meta">Re: PTSD</div><div class="item-detail">Fellow squad member &middot; Attached Aug 1</div></div><span class="badge badge-free">ATTACHED</span></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--warning) 20%, transparent);color:var(--warning);"><i class="fas fa-inbox"></i></div><div class="item-info"><div class="item-title">CPL Martinez</div><div class="item-meta">Re: Knee Injury</div><div class="item-detail">Battle buddy &middot; Received Jul 28</div></div><span class="badge" style="background:color-mix(in srgb, var(--warning) 20%, transparent);color:var(--warning);">RECEIVED</span></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--info) 20%, transparent);color:var(--info);"><i class="fas fa-paper-plane"></i></div><div class="item-info"><div class="item-title">SGT Williams</div><div class="item-meta">Re: Tinnitus</div><div class="item-detail">Platoon mate &middot; Sent Jul 15</div></div><span class="badge badge-upcoming">SENT</span></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--text-muted) 20%, transparent);color:var(--text-muted);"><i class="fas fa-file"></i></div><div class="item-info"><div class="item-title">LCpl Davis</div><div class="item-meta">Re: Lower Back Pain</div><div class="item-detail">Roommate &middot; Created Jul 20</div></div><span class="badge" style="background:var(--surface);color:var(--text-muted);border:1px solid var(--border);">DRAFT</span></div></div>
         </div>
-
         <div class="section-pad" style="margin-top:16px;">
-          <div class="card card-elevated" style="text-align:center;padding:24px;">
-            <div style="font-size:32px;margin-bottom:12px;">📝</div>
-            <div class="h4" style="margin-bottom:8px;">How Buddy Letters Work</div>
-            <div class="body-small" style="text-align:left;">
-              1. Select a condition to support<br>
-              2. Enter your buddy's name & email<br>
-              3. App generates a VA-compliant PDF template<br>
-              4. Email it directly to your buddy<br>
-              5. Track status: Draft → Sent → Received → Attached<br>
-              6. Attach returned letter to your condition
+          <div class="card card-elevated" style="padding:20px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;"><i class="fas fa-circle-info" style="color:var(--primary);"></i><span class="h4">How It Works</span></div>
+            <div class="body-small" style="line-height:2;">
+              <i class="fas fa-1" style="color:var(--primary);width:16px;font-size:10px;"></i> Select a condition to support<br>
+              <i class="fas fa-2" style="color:var(--primary);width:16px;font-size:10px;"></i> Enter buddy's name &amp; email<br>
+              <i class="fas fa-3" style="color:var(--primary);width:16px;font-size:10px;"></i> App generates VA-compliant PDF<br>
+              <i class="fas fa-4" style="color:var(--primary);width:16px;font-size:10px;"></i> Email directly to your buddy<br>
+              <i class="fas fa-5" style="color:var(--primary);width:16px;font-size:10px;"></i> Track: Draft → Sent → Received → Attached
             </div>
           </div>
         </div>
       </div>
-      <div class="fab" onclick="alert('Opens 4-step form:\\n1. Select Condition (PTSD, Tinnitus, etc.)\\n2. Buddy Info (name, email, rank, relationship)\\n3. Shared Service Context (duty station, deployment)\\n4. Custom Questions\\n\\nGenerates VA-compliant PDF & emails directly.')">➕</div>
+      <div class="fab" onclick="alert('Opens 4-step creation form:\\n1. Select Condition\\n2. Buddy Info (name, email, rank, relationship)\\n3. Shared Service Context (duty station, deployment)\\n4. Custom Questions\\n\\nGenerates VA-compliant PDF & emails directly.')"><i class="fas fa-plus"></i></div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
-    <!-- ============================================================
-         VA REGULATIONS / PRESUMPTIVES (NEW)
-         ============================================================ -->
+    <!-- ============================================================ VA REGULATIONS ============================================================ -->
     <div class="screen" id="screen-va">
       <div class="list-header">
-        <div style="display:flex;justify-content:space-between;align-items:center;"><span class="h3">VA Regulations</span><span style="cursor:pointer;color:var(--primary);">🔄</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span class="h3">VA Regulations</span><i class="fas fa-rotate" style="cursor:pointer;color:var(--primary);"></i></div>
         <div class="filter-row">
           <div class="filter-tab active-warning">Your Matches (6)</div>
           <div class="filter-tab">All Presumptives (18)</div>
@@ -466,59 +409,57 @@
         </div>
       </div>
       <div class="screen-scroll">
-        <div class="match-banner" style="margin: 12px 24px;">
-          <span>⚠️</span>
+        <div class="match-banner" style="margin:12px 24px;">
+          <i class="fas fa-triangle-exclamation" style="color:var(--warning);font-size:16px;"></i>
           <span class="body-small" style="color:var(--warning);">Based on your logged exposures (burn pits, noise, PFAS), you may qualify for these presumptive conditions.</span>
         </div>
         <div class="item-list">
           <div class="card">
-            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🫁</div><div class="item-info"><div class="item-title">Sinusitis (Chronic)</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Respiratory</span></div></div></div>
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-lungs"></i></div><div class="item-info"><div class="item-title">Sinusitis (Chronic)</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Respiratory</span></div></div></div>
             <div class="body-small" style="margin-top:8px;">Chronic sinusitis associated with prolonged exposure to airborne particulates.</div>
-            <div class="caption" style="margin-top:6px;">✅ Matches: Burn Pits, Sand/Dust • 38 CFR § 3.320</div>
+            <div class="caption" style="margin-top:6px;"><i class="fas fa-check" style="color:var(--success);font-size:10px;"></i> Matches: Burn Pits, Sand/Dust &middot; 38 CFR § 3.320</div>
           </div>
           <div class="card">
-            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🫁</div><div class="item-info"><div class="item-title">Asthma</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Respiratory</span></div></div></div>
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-lungs"></i></div><div class="item-info"><div class="item-title">Asthma</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Respiratory</span></div></div></div>
             <div class="body-small" style="margin-top:8px;">Asthma presumptively associated with toxic airborne exposures.</div>
-            <div class="caption" style="margin-top:6px;">✅ Matches: Burn Pits, Chemicals • Rating: 10-100% (FEV-1 based)</div>
+            <div class="caption" style="margin-top:6px;"><i class="fas fa-check" style="color:var(--success);font-size:10px;"></i> Matches: Burn Pits, Chemicals &middot; Rating: 10-100% (FEV-1)</div>
           </div>
           <div class="card">
-            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">👂</div><div class="item-info"><div class="item-title">Tinnitus</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="spec-tag">Hearing</span><span class="spec-tag">DC 6260</span></div></div></div>
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-ear-listen"></i></div><div class="item-info"><div class="item-title">Tinnitus</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="spec-tag">Hearing</span><span class="spec-tag">DC 6260</span></div></div></div>
             <div class="body-small" style="margin-top:8px;">Most commonly claimed VA disability. Maximum 10% rating.</div>
-            <div class="caption" style="margin-top:6px;">✅ Matches: Noise Exposure • Self-report often sufficient</div>
+            <div class="caption" style="margin-top:6px;"><i class="fas fa-check" style="color:var(--success);font-size:10px;"></i> Matches: Noise Exposure &middot; Self-report often sufficient</div>
           </div>
           <div class="card">
-            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🧪</div><div class="item-info"><div class="item-title">Kidney Cancer</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Cancer</span></div></div></div>
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-flask-vial"></i></div><div class="item-info"><div class="item-title">Kidney Cancer</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Cancer</span></div></div></div>
             <div class="body-small" style="margin-top:8px;">Linked to PFAS (forever chemicals) exposure at military installations.</div>
-            <div class="caption" style="margin-top:6px;">✅ Matches: PFAS/AFFF • Effective 2024</div>
+            <div class="caption" style="margin-top:6px;"><i class="fas fa-check" style="color:var(--success);font-size:10px;"></i> Matches: PFAS/AFFF &middot; Effective 2024</div>
           </div>
           <div class="card">
-            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🍽️</div><div class="item-info"><div class="item-title">GERD</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">GI</span></div></div></div>
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);color:var(--primary);"><i class="fas fa-stomach"></i></div><div class="item-info"><div class="item-title">GERD</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">GI / Digestive</span></div></div></div>
             <div class="body-small" style="margin-top:8px;">Chronic GERD associated with inhaled toxins from burn pit exposure.</div>
-            <div class="caption" style="margin-top:6px;">✅ Matches: Burn Pits • Rating: 10-60%</div>
+            <div class="caption" style="margin-top:6px;"><i class="fas fa-check" style="color:var(--success);font-size:10px;"></i> Matches: Burn Pits &middot; Rating: 10-60% (DC 7346)</div>
           </div>
         </div>
       </div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
-    <!-- ============================================================
-         RESOURCES DIRECTORY (NEW)
-         ============================================================ -->
+    <!-- ============================================================ RESOURCES ============================================================ -->
     <div class="screen" id="screen-resources">
       <div class="list-header">
         <div class="h3">Claim Resources</div>
         <div class="body-small" style="margin-top:4px;">Find help — rated by fellow veterans</div>
         <div class="filter-row">
           <div class="filter-tab active">All</div>
-          <div class="filter-tab" style="border-color:var(--success);color:var(--success);">🆓 Free</div>
-          <div class="filter-tab">💰 Contingency</div>
-          <div class="filter-tab">💲 Paid</div>
+          <div class="filter-tab" style="border-color:var(--success);color:var(--success);"><i class="fas fa-check-circle" style="font-size:10px;"></i> Free</div>
+          <div class="filter-tab"><i class="fas fa-percent" style="font-size:10px;"></i> Contingency</div>
+          <div class="filter-tab"><i class="fas fa-dollar-sign" style="font-size:10px;"></i> Paid</div>
         </div>
         <div class="filter-row">
           <div class="filter-tab active">All Types</div>
@@ -531,99 +472,81 @@
         <div class="item-list">
           <div class="card">
             <div style="display:flex;align-items:center;gap:12px;">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">🛡️</div>
+              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);color:var(--success);"><i class="fas fa-shield-halved"></i></div>
               <div style="flex:1;"><div class="item-title">Disabled American Veterans (DAV)</div><div class="caption">Veterans Service Organization</div></div>
-              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);">✓ Free</div>
+              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);"><i class="fas fa-check"></i> Free</div>
             </div>
             <div class="body-small" style="margin-top:8px;">Free claim assistance with 1,700+ trained volunteers nationwide.</div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★</span><span class="star-empty">★</span></span><span class="caption" style="margin-left:4px;">4.2 (47)</span></div>
-              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+              <div><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star stars-empty"></i></span> <span class="caption">4.2 (47)</span></div>
+              <span class="badge badge-free" style="font-size:9px;"><i class="fas fa-shield-halved" style="font-size:8px;"></i> VA ACCREDITED</span>
             </div>
             <div class="specialties-row"><span class="spec-tag">All claims</span><span class="spec-tag">Appeals</span><span class="spec-tag">Benefits</span></div>
           </div>
 
           <div class="card">
             <div style="display:flex;align-items:center;gap:12px;">
-              <div class="item-icon" style="background:color-mix(in srgb, #E91E63 20%, transparent);">❤️</div>
+              <div class="item-icon" style="background:color-mix(in srgb, #E91E63 20%, transparent);color:#E91E63;"><i class="fas fa-heart"></i></div>
               <div style="flex:1;"><div class="item-title">Vet Centers</div><div class="caption">Readjustment Counseling</div></div>
-              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);">✓ Free</div>
+              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);"><i class="fas fa-check"></i> Free</div>
             </div>
-            <div class="body-small" style="margin-top:8px;">Free counseling for combat vets, MST survivors. 300+ locations. No VA enrollment needed.</div>
+            <div class="body-small" style="margin-top:8px;">Free counseling for combat vets, MST survivors. 300+ locations.</div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★★</span></span><span class="caption" style="margin-left:4px;">4.5 (23)</span></div>
-              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+              <div><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span> <span class="caption">4.5 (23)</span></div>
+              <span class="badge badge-free" style="font-size:9px;"><i class="fas fa-shield-halved" style="font-size:8px;"></i> VA ACCREDITED</span>
             </div>
             <div class="specialties-row"><span class="spec-tag">PTSD</span><span class="spec-tag">MST</span><span class="spec-tag">Combat stress</span></div>
           </div>
 
           <div class="card">
             <div style="display:flex;align-items:center;gap:12px;">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--info) 20%, transparent);">💼</div>
+              <div class="item-icon" style="background:color-mix(in srgb, var(--info) 20%, transparent);color:var(--info);"><i class="fas fa-briefcase"></i></div>
               <div style="flex:1;"><div class="item-title">VA-Accredited Attorney</div><div class="caption">Claims Agent / Attorney</div></div>
-              <div class="cost-badge" style="border-color:var(--warning);color:var(--warning);background:color-mix(in srgb, var(--warning) 15%, transparent);">💰 Contingency</div>
+              <div class="cost-badge" style="border-color:var(--warning);color:var(--warning);background:color-mix(in srgb, var(--warning) 15%, transparent);"><i class="fas fa-percent"></i> Contingency</div>
             </div>
-            <div class="body-small" style="margin-top:8px;">Typically 20-33% of backpay. No upfront cost — only paid if you win.</div>
+            <div class="body-small" style="margin-top:8px;">20-33% of backpay. No upfront cost — only paid if you win.</div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★</span><span class="star-empty">★</span></span><span class="caption" style="margin-left:4px;">4.3 (12)</span></div>
-              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+              <div><span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star stars-empty"></i></span> <span class="caption">4.3 (12)</span></div>
+              <span class="badge badge-free" style="font-size:9px;"><i class="fas fa-shield-halved" style="font-size:8px;"></i> VA ACCREDITED</span>
             </div>
             <div class="specialties-row"><span class="spec-tag">Appeals</span><span class="spec-tag">Denials</span><span class="spec-tag">TDIU</span><span class="spec-tag">Complex</span></div>
-          </div>
-
-          <div class="card">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">🛡️</div>
-              <div style="flex:1;"><div class="item-title">Veterans of Foreign Wars (VFW)</div><div class="caption">Veterans Service Organization</div></div>
-              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);">✓ Free</div>
-            </div>
-            <div class="body-small" style="margin-top:8px;">Free claims assistance at local posts and VA regional offices nationwide.</div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
-              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★</span><span class="star-empty">★</span></span><span class="caption" style="margin-left:4px;">4.0 (38)</span></div>
-              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
-            </div>
-            <div class="specialties-row"><span class="spec-tag">Combat vets</span><span class="spec-tag">Pension</span><span class="spec-tag">Education</span></div>
           </div>
         </div>
       </div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
-    <!-- ============================================================
-         CLOUD BACKUP (NEW)
-         ============================================================ -->
+    <!-- ============================================================ CLOUD BACKUP ============================================================ -->
     <div class="screen" id="screen-cloud">
       <div class="list-header">
-        <div style="display:flex;align-items:center;gap:8px;"><span style="cursor:pointer;font-size:20px;" onclick="showScreen('screen-dashboard')">←</span><span class="h3">Cloud Backup & Storage</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><i class="fas fa-chevron-left" style="cursor:pointer;color:var(--text);" onclick="showScreen('screen-dashboard')"></i><span class="h3">Cloud Backup & Storage</span></div>
       </div>
       <div class="screen-scroll">
-        <!-- Status Card -->
         <div class="card card-elevated" style="margin:16px 24px;">
           <div class="cloud-status">
-            <div class="cloud-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">☁️</div>
+            <div class="cloud-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);color:var(--success);"><i class="fas fa-cloud-arrow-up"></i></div>
             <div style="flex:1;">
               <div style="font-weight:600;color:var(--text);">Cloud Backup Active</div>
               <div class="caption">rodriguez@marines.mil</div>
             </div>
-            <span style="color:var(--success);font-size:12px;">✓ Synced</span>
+            <span style="color:var(--success);font-size:12px;"><i class="fas fa-check-circle"></i> Synced</span>
           </div>
           <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
             <div style="display:flex;justify-content:space-between;"><span class="caption">Last backup:</span><span class="caption" style="color:var(--text-secondary);">Aug 21, 2026 at 2:15 PM</span></div>
-            <div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="caption">Status:</span><span class="caption" style="color:var(--success);">✓ Up to date</span></div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="caption">Status:</span><span class="caption" style="color:var(--success);"><i class="fas fa-check"></i> Up to date</span></div>
           </div>
         </div>
 
-        <!-- Storage Dashboard -->
         <div class="section-pad"><div class="h4">Storage Usage</div></div>
         <div style="display:flex;gap:8px;padding:0 24px;margin-bottom:24px;">
           <div class="card" style="flex:1;text-align:center;">
-            <div style="font-size:24px;">📱</div>
+            <i class="fas fa-mobile-screen" style="font-size:20px;color:var(--info);"></i>
             <div class="h4" style="margin-top:4px;">48.2 MB</div>
             <div class="caption">On Device</div>
             <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
@@ -632,38 +555,35 @@
             </div>
           </div>
           <div class="card" style="flex:1;text-align:center;">
-            <div style="font-size:24px;">☁️</div>
+            <i class="fas fa-cloud" style="font-size:20px;color:var(--primary);"></i>
             <div class="h4" style="margin-top:4px;">52.8 MB</div>
             <div class="caption">In Cloud</div>
             <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
-              <div style="display:flex;justify-content:space-between;"><span class="caption">Attachments</span><span class="caption">12 files</span></div>
-              <div style="display:flex;justify-content:space-between;margin-top:2px;"><span class="caption">Encrypted</span><span class="caption" style="color:var(--success);">✓ Yes</span></div>
+              <div style="display:flex;justify-content:space-between;"><span class="caption">Files</span><span class="caption">12 attached</span></div>
+              <div style="display:flex;justify-content:space-between;margin-top:2px;"><span class="caption">Encrypted</span><span class="caption" style="color:var(--success);"><i class="fas fa-lock"></i> Yes</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="section-pad"><div class="h4">Actions</div></div>
         <div style="padding:0 24px;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;">
-          <button class="btn btn-primary" onclick="alert('Encrypts all data on-device → uploads to Supabase cloud. Only your password can decrypt it.')">☁️ BACK UP NOW</button>
-          <button class="btn btn-outline">📥 RESTORE FROM CLOUD</button>
+          <button class="btn btn-primary" onclick="alert('Encrypts all data with your password → uploads to Supabase. Only your password can decrypt it. Even the server cannot read your records.')"><i class="fas fa-cloud-arrow-up"></i> BACK UP NOW</button>
+          <button class="btn btn-outline"><i class="fas fa-cloud-arrow-down"></i> RESTORE FROM CLOUD</button>
         </div>
 
-        <!-- Security -->
         <div class="section-pad"><div class="h4">Security</div></div>
         <div class="card" style="margin:0 24px 24px;">
-          <div class="security-item"><span>🔒</span><div><div class="body-small" style="color:var(--text);font-weight:600;">End-to-End Encrypted</div><div class="caption">Data encrypted on your device before upload</div></div></div>
-          <div class="security-item"><span>🔑</span><div><div class="body-small" style="color:var(--text);font-weight:600;">You Hold the Key</div><div class="caption">Only your password can decrypt your data</div></div></div>
-          <div class="security-item"><span>🙈</span><div><div class="body-small" style="color:var(--text);font-weight:600;">Zero Knowledge</div><div class="caption">Server cannot read your medical records</div></div></div>
-          <div class="security-item" style="border-bottom:none;"><span>🏢</span><div><div class="body-small" style="color:var(--text);font-weight:600;">SOC 2 Infrastructure</div><div class="caption">Supabase hosted, compliant infrastructure</div></div></div>
+          <div class="security-item"><i class="fas fa-lock" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">End-to-End Encrypted</div><div class="caption">Data encrypted on your device before upload</div></div></div>
+          <div class="security-item"><i class="fas fa-key" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">You Hold the Key</div><div class="caption">Only your password can decrypt your data</div></div></div>
+          <div class="security-item"><i class="fas fa-eye-slash" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">Zero Knowledge</div><div class="caption">Server cannot read your medical records</div></div></div>
+          <div class="security-item" style="border-bottom:none;"><i class="fas fa-server" style="color:var(--success);"></i><div><div class="body-small" style="color:var(--text);font-weight:600;">SOC 2 Infrastructure</div><div class="caption">Supabase hosted, compliant infrastructure</div></div></div>
         </div>
       </div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
-        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><i class="fas fa-house"></i><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><i class="fas fa-stethoscope"></i><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><i class="fas fa-globe"></i><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><i class="fas fa-scale-balanced"></i><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><i class="fas fa-star"></i><span>Resources</span></div>
       </div>
     </div>
 
@@ -675,12 +595,11 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   }
-
   function setBranch(branch) {
     document.getElementById('phone').className = 'phone-frame theme-' + branch;
-    const names = { army: 'ARMY', navy: 'NAVY', air_force: 'AIR FORCE', marines: 'MARINES', coast_guard: 'COAST GUARD', space_force: 'SPACE FORCE' };
-    const full = { army: 'United States Army', navy: 'United States Navy', air_force: 'United States Air Force', marines: 'United States Marine Corps', coast_guard: 'United States Coast Guard', space_force: 'United States Space Force' };
-    const ranks = { army: 'SGT', navy: 'PO2', air_force: 'SSgt', marines: 'SGT', coast_guard: 'PO2', space_force: 'Spc 4' };
+    const names = { army:'ARMY', navy:'NAVY', air_force:'AIR FORCE', marines:'MARINES', coast_guard:'COAST GUARD', space_force:'SPACE FORCE' };
+    const full = { army:'United States Army', navy:'United States Navy', air_force:'United States Air Force', marines:'United States Marine Corps', coast_guard:'United States Coast Guard', space_force:'United States Space Force' };
+    const ranks = { army:'SGT', navy:'PO2', air_force:'SSgt', marines:'SGT', coast_guard:'PO2', space_force:'Spc 4' };
     document.getElementById('dash-branch').textContent = names[branch];
     document.getElementById('dash-branch-full').textContent = full[branch];
     document.getElementById('dash-name').textContent = ranks[branch] + ' Rodriguez';
