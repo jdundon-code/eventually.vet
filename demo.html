@@ -3,21 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EVENTUALLY.VET — Interactive Demo</title>
+  <title>EVENTUALLY.VET — Interactive Demo v2.0</title>
   <style>
     /* ============================================================
-       EVENTUALLY.VET — Interactive Demo for Chromebook
-       Simulates the mobile app experience in a browser
+       EVENTUALLY.VET — Interactive Demo v2.0 for Chromebook
+       Now includes: Cloud Backup, Buddy Letters, VA Regulations,
+       Resources Directory, and Updated Appointment Filters
        ============================================================ */
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      /* Default military green theme */
       --primary: #4A7C59;
       --primary-dark: #2E5339;
       --primary-light: #6B9B7A;
@@ -36,78 +32,12 @@
       --info: #2196F3;
     }
 
-    /* Branch Themes */
-    .theme-army {
-      --primary: #C1A63D;
-      --primary-dark: #8B7A2B;
-      --primary-light: #D4BE5E;
-      --secondary: #4B5320;
-      --accent: #C1A63D;
-      --background: #0D0D0D;
-      --surface: #1A1A1A;
-      --surface-elevated: #2A2A2A;
-      --border: #3A3A3A;
-    }
-
-    .theme-navy {
-      --primary: #003B7A;
-      --primary-dark: #002552;
-      --primary-light: #1565C0;
-      --secondary: #C5A54E;
-      --accent: #C5A54E;
-      --background: #0A0E1A;
-      --surface: #121828;
-      --surface-elevated: #1E2A3F;
-      --border: #2A3A52;
-    }
-
-    .theme-air_force {
-      --primary: #00308F;
-      --primary-dark: #001F5C;
-      --primary-light: #4169E1;
-      --secondary: #A8B4C2;
-      --accent: #72A0C1;
-      --background: #0A0F1F;
-      --surface: #121A2E;
-      --surface-elevated: #1C2840;
-      --border: #263545;
-    }
-
-    .theme-marines {
-      --primary: #C62828;
-      --primary-dark: #8E0000;
-      --primary-light: #EF5350;
-      --secondary: #C5A54E;
-      --accent: #FFD700;
-      --background: #0D0A0A;
-      --surface: #1A1212;
-      --surface-elevated: #2E1E1E;
-      --border: #3D2626;
-    }
-
-    .theme-coast_guard {
-      --primary: #003366;
-      --primary-dark: #002244;
-      --primary-light: #1976D2;
-      --secondary: #FF6600;
-      --accent: #FF6600;
-      --background: #0A0F1A;
-      --surface: #121C2B;
-      --surface-elevated: #1A283D;
-      --border: #2A3D55;
-    }
-
-    .theme-space_force {
-      --primary: #1A3A6B;
-      --primary-dark: #060E1F;
-      --primary-light: #2E5AA8;
-      --secondary: #C0C0C0;
-      --accent: #7EB7E8;
-      --background: #050A14;
-      --surface: #0C1425;
-      --surface-elevated: #142240;
-      --border: #1E3456;
-    }
+    .theme-army { --primary: #C1A63D; --primary-dark: #8B7A2B; --secondary: #4B5320; --accent: #C1A63D; --background: #0D0D0D; --surface: #1A1A1A; --surface-elevated: #2A2A2A; --border: #3A3A3A; }
+    .theme-navy { --primary: #003B7A; --primary-dark: #002552; --secondary: #C5A54E; --accent: #C5A54E; --background: #0A0E1A; --surface: #121828; --surface-elevated: #1E2A3F; --border: #2A3A52; }
+    .theme-air_force { --primary: #00308F; --primary-dark: #001F5C; --secondary: #A8B4C2; --accent: #72A0C1; --background: #0A0F1F; --surface: #121A2E; --surface-elevated: #1C2840; --border: #263545; }
+    .theme-marines { --primary: #C62828; --primary-dark: #8E0000; --secondary: #C5A54E; --accent: #FFD700; --background: #0D0A0A; --surface: #1A1212; --surface-elevated: #2E1E1E; --border: #3D2626; }
+    .theme-coast_guard { --primary: #003366; --primary-dark: #002244; --secondary: #FF6600; --accent: #FF6600; --background: #0A0F1A; --surface: #121C2B; --surface-elevated: #1A283D; --border: #2A3D55; }
+    .theme-space_force { --primary: #1A3A6B; --primary-dark: #060E1F; --secondary: #C0C0C0; --accent: #7EB7E8; --background: #050A14; --surface: #0C1425; --surface-elevated: #142240; --border: #1E3456; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -120,1065 +50,166 @@
       padding: 20px;
     }
 
-    /* Phone Frame */
     .phone-frame {
-      width: 390px;
-      height: 844px;
-      background: var(--background);
-      border-radius: 40px;
-      overflow: hidden;
-      position: relative;
+      width: 390px; height: 844px; background: var(--background);
+      border-radius: 40px; overflow: hidden; position: relative;
       box-shadow: 0 25px 60px rgba(0,0,0,0.5), inset 0 0 0 3px #333;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
     }
+    .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 160px; height: 30px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
 
-    .phone-notch {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 160px;
-      height: 30px;
-      background: #000;
-      border-radius: 0 0 20px 20px;
-      z-index: 100;
-    }
-
-    /* Screens */
-    .screen {
-      flex: 1;
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .screen.active {
-      display: flex;
-    }
-
-    .screen-scroll {
-      flex: 1;
-      overflow-y: auto;
-      padding-bottom: 90px;
-    }
-
-    .screen-scroll::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    .screen-scroll::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 3px;
-    }
+    .screen { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+    .screen.active { display: flex; }
+    .screen-scroll { flex: 1; overflow-y: auto; padding-bottom: 90px; }
+    .screen-scroll::-webkit-scrollbar { width: 3px; }
+    .screen-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
     /* Typography */
-    .overline {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--primary);
-    }
-
-    .h1 {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: var(--text);
-    }
-
-    .h2 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: var(--text);
-    }
-
-    .h3 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .h4 {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .body {
-      font-size: 16px;
-      line-height: 1.5;
-      color: var(--text-secondary);
-    }
-
-    .body-small {
-      font-size: 14px;
-      line-height: 1.4;
-      color: var(--text-secondary);
-    }
-
-    .caption {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    /* Buttons */
-    .btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 24px;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      width: 100%;
-    }
-
-    .btn:hover {
-      opacity: 0.85;
-      transform: translateY(-1px);
-    }
-
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #FFFFFF;
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--primary);
-    }
-
-    .btn-sm {
-      padding: 8px 16px;
-      font-size: 13px;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .card:hover {
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
-
-    .card-elevated {
-      background: var(--surface-elevated);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
-
-    /* Input */
-    .input-group {
-      margin-bottom: 16px;
-    }
-
-    .input-label {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-
-    .input {
-      width: 100%;
-      background: var(--surface);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      color: var(--text);
-      font-size: 16px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .input:focus {
-      border-color: var(--primary);
-    }
-
-    .input::placeholder {
-      color: var(--text-muted);
-    }
-
-    /* Bottom Tab Bar */
-    .tab-bar {
-      display: flex;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 8px 0 25px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-
-    .tab-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      padding: 6px 0;
-      transition: color 0.2s;
-      color: var(--text-muted);
-    }
-
-    .tab-item.active {
-      color: var(--primary);
-    }
-
-    .tab-item svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .tab-item span {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    /* ============================================================
-       WELCOME SCREEN
-       ============================================================ */
-    #screen-welcome {
-      padding: 60px 24px 40px;
-      justify-content: space-between;
-      align-items: center;
-      text-align: center;
-    }
-
-    .logo-container {
-      width: 120px;
-      height: 120px;
-      border-radius: 60px;
-      background: var(--surface);
-      border: 3px solid var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-
-    .logo-container svg {
-      width: 72px;
-      height: 72px;
-      color: var(--primary);
-    }
-
-    .app-name {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: var(--text);
-    }
-
-    .tagline {
-      font-size: 16px;
-      color: var(--text-secondary);
-      margin-top: 8px;
-    }
-
-    .features-list {
-      width: 100%;
-      text-align: left;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .feature-item svg {
-      width: 22px;
-      height: 22px;
-      color: var(--primary);
-      flex-shrink: 0;
-    }
-
-    .disclaimer {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 16px;
-    }
-
-    /* ============================================================
-       BRANCH SELECTION SCREEN
-       ============================================================ */
-    #screen-branch {
-      padding-top: 60px;
-    }
-
-    .branch-header {
-      padding: 0 24px 16px;
-    }
-
-    .back-btn {
-      background: none;
-      border: none;
-      color: var(--text);
-      cursor: pointer;
-      padding: 8px;
-      margin-left: -8px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 14px;
-    }
-
-    .branch-grid {
-      padding: 0 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .branch-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 20px;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      background: var(--surface);
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-    }
-
-    .branch-card:hover {
-      border-color: var(--text-muted);
-    }
-
-    .branch-card.selected {
-      border-color: var(--card-color, var(--primary));
-      background: var(--card-color, var(--primary));
-    }
-
-    .branch-card.selected .branch-name,
-    .branch-card.selected .branch-motto {
-      color: #FFFFFF;
-    }
-
-    .branch-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-    }
-
-    .branch-name {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .branch-motto {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .branch-footer {
-      padding: 24px;
-      padding-bottom: 40px;
-    }
-
-    /* ============================================================
-       DASHBOARD SCREEN
-       ============================================================ */
-    .dash-header {
-      padding: 50px 24px 16px;
-    }
-
-    .dash-header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    .profile-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 22px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--primary);
-    }
-
-    .service-banner {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 16px;
-    }
-
-    .service-banner-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .service-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .station-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid var(--border);
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding: 0 24px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .stat-card:hover {
-      border-color: var(--primary);
-    }
-
-    .stat-card svg {
-      width: 22px;
-      height: 22px;
-      margin-bottom: 4px;
-    }
-
-    .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text);
-      margin-top: 4px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 24px;
-      margin-bottom: 12px;
-    }
-
-    .section-header .btn-ghost {
-      width: auto;
-      padding: 4px 8px;
-      font-size: 12px;
-    }
-
-    .claim-card {
-      margin: 0 24px 24px;
-    }
-
-    .claim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .claim-stats {
-      display: flex;
-      justify-content: space-around;
-      text-align: center;
-    }
-
-    .claim-stat-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .quick-actions {
-      display: flex;
-      gap: 8px;
-      padding: 0 24px;
-      overflow-x: auto;
-      margin-bottom: 24px;
-    }
-
-    .quick-action {
-      min-width: 100px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .quick-action:hover {
-      border-color: var(--primary);
-    }
-
-    .quick-action-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 22px;
-      background: color-mix(in srgb, var(--primary) 20%, transparent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .quick-action-icon svg {
-      width: 24px;
-      height: 24px;
-      color: var(--primary);
-    }
-
-    /* ============================================================
-       APPOINTMENTS SCREEN
-       ============================================================ */
-    .list-header {
-      padding: 50px 24px 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .filter-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .filter-tab {
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1.5px solid var(--border);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .filter-tab.active {
-      border-color: var(--primary);
-      background: color-mix(in srgb, var(--primary) 15%, transparent);
-      color: var(--primary);
-    }
-
-    .appointment-list {
-      padding: 12px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .appointment-card {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .apt-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 22px;
-      background: color-mix(in srgb, var(--primary) 15%, transparent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .apt-icon svg {
-      width: 20px;
-      height: 20px;
-      color: var(--primary);
-    }
-
-    .apt-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .apt-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .apt-meta {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-
-    .apt-detail {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .sc-badge {
-      background: color-mix(in srgb, var(--warning) 20%, transparent);
-      color: var(--warning);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      flex-shrink: 0;
-    }
-
-    .fab {
-      position: absolute;
-      bottom: 100px;
-      right: 24px;
-      width: 56px;
-      height: 56px;
-      border-radius: 28px;
-      background: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      transition: all 0.2s;
-      z-index: 10;
-    }
-
-    .fab:hover {
-      transform: scale(1.1);
-    }
-
-    .fab svg {
-      width: 28px;
-      height: 28px;
-      color: #FFFFFF;
-    }
-
-    /* ============================================================
-       DEPLOYMENTS SCREEN
-       ============================================================ */
-    .deployment-card-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .deployment-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
-    }
-
-    .combat-badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: color-mix(in srgb, var(--error) 20%, transparent);
-      color: var(--error);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-left: auto;
-    }
-
-    .deployment-details {
-      padding-left: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .detail-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    .detail-item svg {
-      width: 14px;
-      height: 14px;
-      color: var(--text-muted);
-    }
-
-    .hazard-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      padding-left: 16px;
-    }
-
-    .hazard-tag {
-      display: flex;
-      align-items: center;
-      gap: 3px;
-      background: color-mix(in srgb, var(--warning) 15%, transparent);
-      border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent);
-      color: var(--warning);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    /* ============================================================
-       VA CLAIM SCREEN
-       ============================================================ */
-    .readiness-card {
-      margin: 16px 24px;
-    }
-
-    .readiness-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .score-badge {
-      background: color-mix(in srgb, var(--info) 20%, transparent);
-      color: var(--info);
-      font-size: 24px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 8px;
-    }
-
-    .progress-bar {
-      height: 8px;
-      background: var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: var(--info);
-      transition: width 0.5s ease;
-    }
-
-    .checklist {
-      padding: 0 24px;
-      margin-bottom: 24px;
-    }
-
-    .checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 0;
-    }
-
-    .checklist-item svg {
-      width: 22px;
-      height: 22px;
-      flex-shrink: 0;
-    }
-
-    .checklist-item.done svg {
-      color: var(--success);
-    }
-
-    .checklist-item.pending svg {
-      color: var(--text-muted);
-    }
-
-    .checklist-item.done span {
-      color: var(--text);
-    }
-
-    .checklist-item.pending span {
-      color: var(--text-muted);
-    }
-
-    .evidence-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding: 0 24px;
-      margin-bottom: 24px;
-    }
-
-    .evidence-tile {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .evidence-tile svg {
-      width: 20px;
-      height: 20px;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-
-    .evidence-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    /* ============================================================
-       DUTY STATIONS (TIMELINE)
-       ============================================================ */
-    .timeline {
-      padding: 12px 24px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .timeline-item {
-      display: flex;
-      gap: 12px;
-    }
-
-    .timeline-left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 24px;
-    }
-
-    .timeline-dot {
-      width: 24px;
-      height: 24px;
-      border-radius: 12px;
-      background: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      z-index: 1;
-    }
-
-    .timeline-dot.current {
-      background: var(--success);
-    }
-
-    .timeline-dot svg {
-      width: 12px;
-      height: 12px;
-      color: #FFF;
-    }
-
-    .timeline-line {
-      width: 2px;
-      flex: 1;
-      background: var(--border);
-      margin-top: -2px;
-    }
-
-    .timeline-content {
-      flex: 1;
-      padding-bottom: 16px;
-    }
-
-    .current-badge {
-      display: inline-block;
-      background: color-mix(in srgb, var(--success) 20%, transparent);
-      color: var(--success);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-bottom: 6px;
-    }
-
-    .station-footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid var(--border);
-    }
-
-    /* ============================================================
-       SIDE INFO PANEL (Desktop)
-       ============================================================ */
-    .demo-container {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .info-panel {
-      max-width: 400px;
-      display: none;
-    }
-
-    @media (min-width: 900px) {
-      .info-panel {
-        display: block;
-      }
-    }
-
-    .info-panel h1 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #FFF;
-    }
-
-    .info-panel .subtitle {
-      font-size: 18px;
-      color: #999;
-      margin-bottom: 32px;
-    }
-
-    .info-panel .feature-list {
-      list-style: none;
-    }
-
-    .info-panel .feature-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      margin-bottom: 16px;
-      color: #CCC;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .info-panel .feature-list li .emoji {
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .branch-selector-demo {
-      display: flex;
-      gap: 8px;
-      margin-top: 32px;
-      flex-wrap: wrap;
-    }
-
-    .branch-btn-demo {
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1.5px solid #333;
-      background: #111;
-      color: #AAA;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .branch-btn-demo:hover, .branch-btn-demo.active {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: color-mix(in srgb, var(--primary) 10%, transparent);
-    }
-
-    .nav-hint {
-      margin-top: 24px;
-      font-size: 12px;
-      color: #666;
-    }
+    .overline { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary); }
+    .h1 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
+    .h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); }
+    .h3 { font-size: 20px; font-weight: 600; color: var(--text); }
+    .h4 { font-size: 17px; font-weight: 600; color: var(--text); }
+    .body { font-size: 16px; line-height: 1.5; color: var(--text-secondary); }
+    .body-small { font-size: 14px; line-height: 1.4; color: var(--text-secondary); }
+    .caption { font-size: 12px; color: var(--text-muted); }
+    .label { font-size: 12px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-secondary); }
+
+    /* Components */
+    .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 8px; font-size: 15px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.2s; width: 100%; }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #FFF; }
+    .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+    .card:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .card-elevated { background: var(--surface-elevated); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+    .tab-bar { display: flex; background: var(--surface); border-top: 1px solid var(--border); padding: 8px 0 25px; position: absolute; bottom: 0; left: 0; right: 0; }
+    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 6px 0; color: var(--text-muted); transition: color 0.2s; }
+    .tab-item.active { color: var(--primary); }
+    .tab-item svg { width: 22px; height: 22px; }
+    .tab-item span { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+
+    .fab { position: absolute; bottom: 100px; right: 24px; width: 56px; height: 56px; border-radius: 28px; background: var(--primary); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transition: all 0.2s; z-index: 10; }
+    .fab:hover { transform: scale(1.1); }
+    .fab svg { width: 28px; height: 28px; color: #FFF; }
+
+    .filter-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .filter-tab { padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--border); font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .filter-tab.active { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 15%, transparent); color: var(--primary); }
+    .filter-tab.active-info { border-color: var(--info); background: color-mix(in srgb, var(--info) 15%, transparent); color: var(--info); }
+    .filter-tab.active-warning { border-color: var(--warning); background: color-mix(in srgb, var(--warning) 15%, transparent); color: var(--warning); }
+
+    .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 4px; }
+    .badge-sc { background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); }
+    .badge-upcoming { background: color-mix(in srgb, var(--info) 20%, transparent); color: var(--info); }
+    .badge-free { background: color-mix(in srgb, var(--success) 20%, transparent); color: var(--success); }
+    .badge-paid { background: color-mix(in srgb, var(--error) 20%, transparent); color: var(--error); }
+    .badge-contingency { background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); }
+    .badge-pact { background: color-mix(in srgb, var(--success) 20%, transparent); color: var(--success); }
+    .badge-combat { background: color-mix(in srgb, var(--error) 20%, transparent); color: var(--error); }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 24px; margin-bottom: 24px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+    .stat-card:hover { border-color: var(--primary); }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--text); margin-top: 4px; }
+    .stat-label { font-size: 12px; color: var(--text-muted); }
+
+    .section-pad { padding: 0 24px; margin-bottom: 16px; }
+    .list-header { padding: 50px 24px 12px; border-bottom: 1px solid var(--border); }
+    .item-list { padding: 12px 24px; display: flex; flex-direction: column; gap: 8px; }
+    .item-row { display: flex; align-items: center; gap: 12px; }
+    .item-icon { width: 44px; height: 44px; border-radius: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .item-info { flex: 1; min-width: 0; }
+    .item-title { font-size: 15px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .item-meta { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+    .item-detail { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Stars */
+    .stars { display: inline-flex; gap: 1px; }
+    .star { color: #FFC107; font-size: 14px; }
+    .star-empty { color: var(--text-muted); font-size: 14px; }
+
+    /* Progress bar */
+    .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+
+    /* Pipeline */
+    .pipeline { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
+    .pipeline-step { text-align: center; }
+    .pipeline-dot { width: 28px; height: 28px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-size: 12px; }
+    .pipeline-line { width: 24px; height: 2px; margin-bottom: 16px; }
+
+    /* Hazard tags */
+    .hazard-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+    .hazard-tag { display: flex; align-items: center; gap: 3px; background: color-mix(in srgb, var(--warning) 15%, transparent); border: 1px solid color-mix(in srgb, var(--warning) 40%, transparent); color: var(--warning); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; }
+
+    /* Match banner */
+    .match-banner { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 8px; background: color-mix(in srgb, var(--warning) 8%, transparent); margin-bottom: 12px; border: 1px solid color-mix(in srgb, var(--warning) 20%, transparent); }
+
+    /* Cloud status */
+    .cloud-status { display: flex; align-items: center; gap: 12px; }
+    .cloud-icon { width: 48px; height: 48px; border-radius: 24px; display: flex; align-items: center; justify-content: center; }
+
+    /* Security items */
+    .security-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .security-item:last-child { border-bottom: none; }
+
+    /* Resource card extras */
+    .cost-badge { display: flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 6px; border: 1px solid; font-size: 10px; font-weight: 700; }
+    .specialties-row { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .spec-tag { padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface); font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-secondary); }
+
+    /* Layout helpers */
+    .demo-container { display: flex; gap: 40px; align-items: center; }
+    .info-panel { max-width: 400px; display: none; }
+    @media (min-width: 900px) { .info-panel { display: block; } }
+    .info-panel h1 { font-size: 36px; font-weight: 700; margin-bottom: 8px; color: #FFF; }
+    .info-panel .subtitle { font-size: 18px; color: #999; margin-bottom: 24px; }
+    .info-panel .feature-list { list-style: none; }
+    .info-panel .feature-list li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; color: #CCC; font-size: 14px; line-height: 1.5; }
+    .info-panel .feature-list li .emoji { font-size: 18px; flex-shrink: 0; }
+    .branch-selector-demo { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+    .branch-btn-demo { padding: 8px 14px; border-radius: 999px; border: 1.5px solid #333; background: #111; color: #AAA; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .branch-btn-demo:hover, .branch-btn-demo.active { border-color: var(--primary); color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, transparent); }
+    .nav-hint { margin-top: 20px; font-size: 12px; color: #666; line-height: 1.6; }
+    .screen-nav { display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap; }
+    .screen-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid #333; background: #111; color: #888; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+    .screen-btn:hover { border-color: var(--primary); color: var(--primary); }
   </style>
 </head>
 <body>
 
 <div class="demo-container">
-  <!-- Info Panel (visible on larger screens) -->
+  <!-- Info Panel -->
   <div class="info-panel">
     <h1>EVENTUALLY.VET</h1>
-    <p class="subtitle">Your Service. Your Records. Your Future.</p>
+    <p class="subtitle">v2.0 — Your Service. Your Records. Your Future.</p>
 
     <ul class="feature-list">
-      <li><span class="emoji">🏥</span> Track every medical appointment from day one of service</li>
-      <li><span class="emoji">🌍</span> Log deployments with hazard exposures (PACT Act ready)</li>
-      <li><span class="emoji">🏢</span> Document PCS history with timeline visualization</li>
-      <li><span class="emoji">📎</span> Attach documents, photos, medical records</li>
-      <li><span class="emoji">📋</span> Build your VA claim with readiness scoring</li>
-      <li><span class="emoji">📱</span> Import appointments from device calendar</li>
-      <li><span class="emoji">🔒</span> All data stays on your device — forever</li>
+      <li><span class="emoji">☁️</span> <strong>Cloud Backup</strong> — End-to-end encrypted sync, restore to new device</li>
+      <li><span class="emoji">📝</span> <strong>Buddy Letters</strong> — Generate VA-compliant statements, email, track pipeline</li>
+      <li><span class="emoji">⚖️</span> <strong>VA Regulations</strong> — 18 presumptive conditions, auto-match exposures, PACT Act</li>
+      <li><span class="emoji">⭐</span> <strong>Resources</strong> — VSOs, attorneys, Vet Centers with veteran ratings</li>
+      <li><span class="emoji">🏥</span> <strong>Medical Tracking</strong> — Past/upcoming filters, service-connection flags</li>
+      <li><span class="emoji">🌍</span> <strong>Deployments</strong> — Hazard exposure tracking (PACT Act ready)</li>
+      <li><span class="emoji">🏢</span> <strong>Duty Stations</strong> — PCS timeline with supervisor info</li>
+      <li><span class="emoji">♿</span> <strong>Accessible</strong> — WCAG 2.1 AA compliant, screen reader ready</li>
     </ul>
 
-    <p class="nav-hint">👆 Try changing branches below to see the theming, and click the tabs on the phone to navigate between screens</p>
+    <p class="nav-hint">👆 Click tabs on the phone or use buttons below to navigate.<br>🎨 Switch branches to change the entire color theme.</p>
+
+    <div class="screen-nav">
+      <button class="screen-btn" onclick="showScreen('screen-dashboard')">Dashboard</button>
+      <button class="screen-btn" onclick="showScreen('screen-appointments')">Medical</button>
+      <button class="screen-btn" onclick="showScreen('screen-deployments')">Deployments</button>
+      <button class="screen-btn" onclick="showScreen('screen-buddy')">Buddy Letters</button>
+      <button class="screen-btn" onclick="showScreen('screen-va')">VA Regs</button>
+      <button class="screen-btn" onclick="showScreen('screen-resources')">Resources</button>
+      <button class="screen-btn" onclick="showScreen('screen-cloud')">Cloud Backup</button>
+    </div>
 
     <div class="branch-selector-demo">
       <button class="branch-btn-demo" onclick="setBranch('army')">Army</button>
@@ -1195,603 +226,444 @@
     <div class="phone-notch"></div>
 
     <!-- ============================================================
-         WELCOME SCREEN
+         DASHBOARD
          ============================================================ -->
-    <div class="screen" id="screen-welcome">
-      <div>
-        <div class="logo-container">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-        </div>
-        <div class="app-name">EVENTUALLY.VET</div>
-        <div class="tagline">Your Service. Your Records. Your Future.</div>
-      </div>
-
-      <div class="features-list">
-        <div class="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          <span class="body-small">Track every medical appointment from day one</span>
-        </div>
-        <div class="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span class="body-small">Log deployments, duty stations & hazard exposures</span>
-        </div>
-        <div class="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <span class="body-small">Build your VA claim with years of documentation</span>
-        </div>
-        <div class="feature-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span class="body-small">Your data stays on your device — forever</span>
-        </div>
-      </div>
-
-      <div style="width: 100%;">
-        <button class="btn btn-primary" onclick="showScreen('screen-dashboard')">BEGIN SETUP</button>
-        <p class="disclaimer">Not affiliated with the VA or DoD. This is a personal record-keeping tool.</p>
-      </div>
-    </div>
-
-    <!-- ============================================================
-         DASHBOARD SCREEN
-         ============================================================ -->
-    <div class="screen" id="screen-dashboard">
+    <div class="screen active" id="screen-dashboard">
       <div class="screen-scroll">
-        <div class="dash-header">
-          <div class="dash-header-top">
+        <div style="padding: 50px 24px 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
             <div>
-              <div class="overline" id="dash-branch-label">MARINES</div>
+              <div class="overline" id="dash-branch">MARINES</div>
               <div class="h2" id="dash-name">SGT Rodriguez</div>
             </div>
-            <div class="profile-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
+            <div style="width:44px;height:44px;border-radius:22px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showScreen('screen-cloud')">☁️</div>
           </div>
-
-          <div class="service-banner">
-            <div class="service-banner-row">
-              <div class="service-info">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="color: var(--primary)"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                <span class="body-small" id="dash-branch-name">United States Marine Corps</span>
-              </div>
-              <span class="body-small" style="color: var(--accent)">6 years, 3 months</span>
+          <div class="card" style="margin-bottom: 16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="display:flex;align-items:center;gap:8px;"><span style="color:var(--primary)">🌐</span><span class="body-small" id="dash-branch-full">United States Marine Corps</span></div>
+              <span class="body-small" style="color:var(--accent)">6 yrs, 3 mo</span>
             </div>
-            <div class="station-row">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="color: var(--text-muted)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span class="body-small" style="color: var(--text-secondary)">Camp Pendleton — 1st MarDiv, 1/5</span>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+              <span style="font-size:14px;">📍</span><span class="body-small">Camp Pendleton — 1st MarDiv, 1/5</span>
             </div>
           </div>
         </div>
 
-        <!-- Stats Grid -->
         <div class="stats-grid">
-          <div class="stat-card" onclick="showScreen('screen-appointments')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--info)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            <div class="stat-value">23</div>
-            <div class="stat-label">Appointments</div>
-          </div>
-          <div class="stat-card" onclick="showScreen('screen-deployments')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--warning)"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
-            <div class="stat-value">3</div>
-            <div class="stat-label">Deployments</div>
-          </div>
-          <div class="stat-card" onclick="showScreen('screen-stations')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--success)"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg>
-            <div class="stat-value">4</div>
-            <div class="stat-label">Duty Stations</div>
-          </div>
-          <div class="stat-card" onclick="showScreen('screen-claim')">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--error)"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            <div class="stat-value">5</div>
-            <div class="stat-label">Conditions</div>
-          </div>
+          <div class="stat-card" onclick="showScreen('screen-appointments')">🏥<div class="stat-value">23</div><div class="stat-label">Appointments</div></div>
+          <div class="stat-card" onclick="showScreen('screen-deployments')">🌍<div class="stat-value">3</div><div class="stat-label">Deployments</div></div>
+          <div class="stat-card" onclick="showScreen('screen-buddy')">📝<div class="stat-value">4</div><div class="stat-label">Buddy Letters</div></div>
+          <div class="stat-card" onclick="showScreen('screen-va')">⚖️<div class="stat-value">6</div><div class="stat-label">Matched Conditions</div></div>
         </div>
 
-        <!-- VA Claim Card -->
-        <div class="card card-elevated claim-card">
-          <div class="claim-header">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" style="color: var(--primary)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <span class="h4">VA Claim Readiness</span>
-            </div>
-            <button class="btn btn-ghost btn-sm" onclick="showScreen('screen-claim')" style="width:auto; padding: 4px 8px;">VIEW</button>
+        <!-- VA Claim Readiness -->
+        <div class="card card-elevated" style="margin: 0 24px 24px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;"><span>📋</span><span class="h4">VA Claim Readiness</span></div>
+            <span style="background:color-mix(in srgb, var(--info) 20%, transparent);color:var(--info);font-size:20px;font-weight:700;padding:4px 12px;border-radius:8px;">72%</span>
           </div>
-          <div class="claim-stats">
-            <div>
-              <div class="claim-stat-value">5</div>
-              <div class="caption">Tracked</div>
-            </div>
-            <div>
-              <div class="claim-stat-value">4</div>
-              <div class="caption">Service-Connected</div>
-            </div>
-            <div>
-              <div class="claim-stat-value">2</div>
-              <div class="caption">Claimed</div>
-            </div>
-          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:72%;background:var(--info);"></div></div>
+          <div class="caption" style="margin-top:8px;">Strong documentation. Keep adding details to strengthen your claim.</div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="section-header">
-          <span class="h4">Quick Actions</span>
+        <!-- New Feature Highlights -->
+        <div class="section-pad">
+          <div class="h4" style="margin-bottom: 12px;">New in v2.0</div>
         </div>
-        <div class="quick-actions">
-          <div class="quick-action" onclick="showScreen('screen-appointments')">
-            <div class="quick-action-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            </div>
-            <span class="caption">New Appt</span>
+        <div style="display:flex;gap:8px;padding:0 24px;overflow-x:auto;margin-bottom:24px;">
+          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-cloud')">
+            <div style="font-size:28px;margin-bottom:8px;">☁️</div>
+            <div class="body-small" style="color:var(--text);font-weight:600;">Cloud Backup</div>
+            <div class="caption">E2E Encrypted</div>
           </div>
-          <div class="quick-action">
-            <div class="quick-action-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            </div>
-            <span class="caption">Import Cal</span>
+          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-buddy')">
+            <div style="font-size:28px;margin-bottom:8px;">📝</div>
+            <div class="body-small" style="color:var(--text);font-weight:600;">Buddy Letters</div>
+            <div class="caption">Generate & Email</div>
           </div>
-          <div class="quick-action" onclick="showScreen('screen-deployments')">
-            <div class="quick-action-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
-            </div>
-            <span class="caption">Deployment</span>
+          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-va')">
+            <div style="font-size:28px;margin-bottom:8px;">⚖️</div>
+            <div class="body-small" style="color:var(--text);font-weight:600;">VA Presumptives</div>
+            <div class="caption">Auto-Match</div>
           </div>
-          <div class="quick-action" onclick="showScreen('screen-stations')">
-            <div class="quick-action-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg>
-            </div>
-            <span class="caption">Duty Station</span>
+          <div class="card" style="min-width:140px;text-align:center;" onclick="showScreen('screen-resources')">
+            <div style="font-size:28px;margin-bottom:8px;">⭐</div>
+            <div class="body-small" style="color:var(--text);font-weight:600;">Resources</div>
+            <div class="caption">Veteran Rated</div>
           </div>
         </div>
       </div>
 
-      <!-- Tab Bar -->
       <div class="tab-bar">
-        <div class="tab-item active" onclick="showScreen('screen-dashboard')">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          <span>Home</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          <span>Medical</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
-          <span>Deploy</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-stations')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg>
-          <span>Stations</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-claim')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span>Claim</span>
-        </div>
+        <div class="tab-item active" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
       </div>
     </div>
 
     <!-- ============================================================
-         APPOINTMENTS SCREEN
+         APPOINTMENTS (with Past/Upcoming filters)
          ============================================================ -->
     <div class="screen" id="screen-appointments">
       <div class="list-header">
         <div class="h2">Medical Appointments</div>
-        <div class="body-small" style="margin-top: 4px;">23 total records</div>
+        <div class="body-small" style="margin-top:4px;">23 total records • 5 upcoming</div>
         <div class="filter-row">
           <div class="filter-tab active">All (23)</div>
-          <div class="filter-tab">Service-Connected (14)</div>
+          <div class="filter-tab active-info">Upcoming (5)</div>
+          <div class="filter-tab">Past (18)</div>
+        </div>
+        <div class="filter-row">
+          <div class="filter-tab active">All Types</div>
+          <div class="filter-tab active-warning">Service-Connected (14)</div>
         </div>
       </div>
-
       <div class="screen-scroll">
-        <div class="appointment-list">
-          <div class="card">
-            <div class="appointment-card">
-              <div class="apt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-              <div class="apt-info">
-                <div class="apt-title">Knee Follow-Up</div>
-                <div class="apt-meta">Dr. Martinez • Naval Hospital Camp Pendleton</div>
-                <div class="apt-detail">Aug 15, 2026 • Orthopedic</div>
-              </div>
-              <div class="sc-badge">SC</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="appointment-card">
-              <div class="apt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
-              <div class="apt-info">
-                <div class="apt-title">Mental Health - PTSD</div>
-                <div class="apt-meta">Dr. Chen • Behavioral Health Clinic</div>
-                <div class="apt-detail">Aug 8, 2026 • Mental Health</div>
-              </div>
-              <div class="sc-badge">SC</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="appointment-card">
-              <div class="apt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-              <div class="apt-info">
-                <div class="apt-title">Audiology - Tinnitus Eval</div>
-                <div class="apt-meta">Dr. Patel • Audiology Clinic</div>
-                <div class="apt-detail">Jul 22, 2026 • Audiology</div>
-              </div>
-              <div class="sc-badge">SC</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="appointment-card">
-              <div class="apt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-              <div class="apt-info">
-                <div class="apt-title">Annual Physical</div>
-                <div class="apt-meta">Dr. Williams • Primary Care</div>
-                <div class="apt-detail">Jul 10, 2026 • Primary Care</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="appointment-card">
-              <div class="apt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-              <div class="apt-info">
-                <div class="apt-title">Lower Back MRI</div>
-                <div class="apt-meta">Dr. Kim • Radiology Dept</div>
-                <div class="apt-detail">Jun 28, 2026 • Radiology</div>
-              </div>
-              <div class="sc-badge">SC</div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="appointment-card">
-              <div class="apt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-              <div class="apt-info">
-                <div class="apt-title">Physical Therapy - Shoulder</div>
-                <div class="apt-meta">LT Torres • PT Clinic</div>
-                <div class="apt-detail">Jun 15, 2026 • Physical Therapy</div>
-              </div>
-              <div class="sc-badge">SC</div>
-            </div>
-          </div>
+        <div class="item-list">
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">🦵</div><div class="item-info"><div class="item-title">Knee Follow-Up</div><div class="item-meta">Dr. Martinez • Naval Hospital Camp Pendleton</div><div class="item-detail" style="color:var(--info);">Aug 28, 2026 • Orthopedic</div></div><div><span class="badge badge-upcoming">UPCOMING</span><br><span class="badge badge-sc" style="margin-top:4px;">SC</span></div></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">🧠</div><div class="item-info"><div class="item-title">Mental Health - PTSD</div><div class="item-meta">Dr. Chen • Behavioral Health Clinic</div><div class="item-detail" style="color:var(--info);">Aug 22, 2026 • Mental Health</div></div><div><span class="badge badge-upcoming">UPCOMING</span><br><span class="badge badge-sc" style="margin-top:4px;">SC</span></div></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">👂</div><div class="item-info"><div class="item-title">Audiology - Tinnitus Eval</div><div class="item-meta">Dr. Patel • Audiology Clinic</div><div class="item-detail">Jul 22, 2026 • Audiology</div></div><span class="badge badge-sc">SC</span></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">🩺</div><div class="item-info"><div class="item-title">Annual Physical</div><div class="item-meta">Dr. Williams • Primary Care</div><div class="item-detail">Jul 10, 2026 • Primary Care</div></div></div></div>
+          <div class="card"><div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);font-size:18px;">📷</div><div class="item-info"><div class="item-title">Lower Back MRI</div><div class="item-meta">Dr. Kim • Radiology Dept</div><div class="item-detail">Jun 28, 2026 • Radiology</div></div><span class="badge badge-sc">SC</span></div></div>
         </div>
       </div>
-
-      <div class="fab" onclick="alert('Opens the New Appointment form with fields for: Title, Type (17 specialties), Date, Provider, Facility, Chief Complaint, Diagnosis, Treatment Plan, Medications, Follow-up, Service-Connection toggle, and Notes.')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </div>
-
-      <!-- Tab Bar -->
+      <div class="fab" onclick="alert('Opens appointment form: Title, Type (17 specialties), Date, Provider, Facility, Chief Complaint, Diagnosis, Treatment, Medications, Follow-up, Service-Connection, Notes')">➕</div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          <span>Home</span>
-        </div>
-        <div class="tab-item active" onclick="showScreen('screen-appointments')">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          <span>Medical</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
-          <span>Deploy</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-stations')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg>
-          <span>Stations</span>
-        </div>
-        <div class="tab-item" onclick="showScreen('screen-claim')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span>Claim</span>
-        </div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
       </div>
     </div>
 
     <!-- ============================================================
-         DEPLOYMENTS SCREEN
+         DEPLOYMENTS
          ============================================================ -->
     <div class="screen" id="screen-deployments">
       <div class="list-header">
         <div class="h2">Deployments</div>
-        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-          <span class="body-small">3 deployments</span>
-          <span class="body-small" style="color: var(--accent)">487 total days deployed</span>
-        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="body-small">3 deployments</span><span class="body-small" style="color:var(--accent)">487 total days</span></div>
       </div>
-
       <div class="screen-scroll">
-        <div class="appointment-list">
+        <div class="item-list">
           <div class="card">
-            <div class="deployment-card-inner">
-              <div class="deployment-header">
-                <div class="status-dot" style="background: var(--text-muted)"></div>
-                <span class="h4" style="flex:1">OIR — Operation Inherent Resolve</span>
-                <div class="combat-badge">⚠ COMBAT</div>
-              </div>
-              <div class="deployment-details">
-                <div class="detail-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Iraq — Al Asad Air Base
-                </div>
-                <div class="detail-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  Jan 2024 – Aug 2024 (210 days)
-                </div>
-              </div>
-              <div class="hazard-row">
-                <div class="hazard-tag">⚠ BURN PITS</div>
-                <div class="hazard-tag">⚠ NOISE</div>
-                <div class="hazard-tag">⚠ SAND/DUST</div>
-              </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">OIR — Op Inherent Resolve</span><span class="badge badge-combat">⚠ COMBAT</span></div>
+            <div style="padding-left:16px;" class="body-small">📍 Iraq — Al Asad Air Base<br>🕐 Jan 2024 – Aug 2024 (210 days)</div>
+            <div class="hazard-row" style="padding-left:16px;">
+              <span class="hazard-tag">⚠ BURN PITS</span><span class="hazard-tag">⚠ NOISE</span><span class="hazard-tag">⚠ SAND/DUST</span>
             </div>
           </div>
-
           <div class="card">
-            <div class="deployment-card-inner">
-              <div class="deployment-header">
-                <div class="status-dot" style="background: var(--text-muted)"></div>
-                <span class="h4" style="flex:1">OFS — Op Freedom's Sentinel</span>
-                <div class="combat-badge">⚠ COMBAT</div>
-              </div>
-              <div class="deployment-details">
-                <div class="detail-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Afghanistan — Camp Leatherneck
-                </div>
-                <div class="detail-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  Mar 2022 – Oct 2022 (212 days)
-                </div>
-              </div>
-              <div class="hazard-row">
-                <div class="hazard-tag">⚠ BURN PITS</div>
-                <div class="hazard-tag">⚠ EXTREME HEAT</div>
-                <div class="hazard-tag">⚠ NOISE</div>
-                <div class="hazard-tag">⚠ CHEMICALS</div>
-              </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">OFS — Freedom's Sentinel</span><span class="badge badge-combat">⚠ COMBAT</span></div>
+            <div style="padding-left:16px;" class="body-small">📍 Afghanistan — Camp Leatherneck<br>🕐 Mar 2022 – Oct 2022 (212 days)</div>
+            <div class="hazard-row" style="padding-left:16px;">
+              <span class="hazard-tag">⚠ BURN PITS</span><span class="hazard-tag">⚠ HEAT</span><span class="hazard-tag">⚠ NOISE</span><span class="hazard-tag">⚠ CHEMICALS</span>
             </div>
           </div>
-
           <div class="card">
-            <div class="deployment-card-inner">
-              <div class="deployment-header">
-                <div class="status-dot" style="background: var(--text-muted)"></div>
-                <span class="h4" style="flex:1">UDP — Unit Deployment Program</span>
-              </div>
-              <div class="deployment-details">
-                <div class="detail-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Okinawa, Japan — Camp Hansen
-                </div>
-                <div class="detail-item">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  Sep 2021 – Dec 2021 (65 days)
-                </div>
-              </div>
-              <div class="hazard-row">
-                <div class="hazard-tag">⚠ PFAS/AFFF</div>
-              </div>
-            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:4px;background:var(--text-muted);"></div><span class="h4" style="flex:1;">UDP — Okinawa</span></div>
+            <div style="padding-left:16px;" class="body-small">📍 Japan — Camp Hansen<br>🕐 Sep 2021 – Dec 2021 (65 days)</div>
+            <div class="hazard-row" style="padding-left:16px;"><span class="hazard-tag">⚠ PFAS/AFFF</span></div>
           </div>
         </div>
       </div>
-
-      <div class="fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-
-      <!-- Tab Bar -->
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Medical</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-deployments')"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-stations')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg><span>Stations</span></div>
-        <div class="tab-item" onclick="showScreen('screen-claim')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Claim</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
       </div>
     </div>
 
     <!-- ============================================================
-         DUTY STATIONS SCREEN
+         BUDDY LETTERS (NEW)
          ============================================================ -->
-    <div class="screen" id="screen-stations">
+    <div class="screen" id="screen-buddy">
       <div class="list-header">
-        <div class="h2">Duty Stations</div>
-        <div class="body-small" style="margin-top: 4px;">4 stations — PCS History</div>
+        <div style="display:flex;align-items:center;gap:8px;"><span style="cursor:pointer;font-size:20px;" onclick="showScreen('screen-dashboard')">←</span><span class="h3">Buddy Letters</span></div>
+        <div class="body-small" style="margin-top:4px;">Request statements from fellow service members</div>
+        <div class="pipeline">
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--text-muted);color:#fff;">1</div><div class="caption">Draft</div></div>
+          <div class="pipeline-line" style="background:var(--info);"></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--info);color:#fff;">2</div><div class="caption">Sent</div></div>
+          <div class="pipeline-line" style="background:var(--warning);"></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--warning);color:#fff;">1</div><div class="caption">Received</div></div>
+          <div class="pipeline-line" style="background:var(--success);"></div>
+          <div class="pipeline-step"><div class="pipeline-dot" style="background:var(--success);color:#fff;">1</div><div class="caption">Attached</div></div>
+        </div>
       </div>
-
       <div class="screen-scroll">
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-left">
-              <div class="timeline-dot current"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg></div>
-              <div class="timeline-line"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="card">
-                <div class="current-badge">CURRENT STATION</div>
-                <div class="h4">Camp Pendleton</div>
-                <div class="detail-item" style="margin-top: 4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Oceanside, CA</div>
-                <div class="detail-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>1st Marine Division, 1/5</div>
-                <div class="detail-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg>Squad Leader</div>
-                <div class="station-footer">
-                  <span class="caption">Jun 2023 - Present</span>
-                  <span class="caption" style="color: var(--accent)">3 years, 2 months</span>
-                </div>
-              </div>
+        <div class="item-list">
+          <div class="card">
+            <div class="item-row">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">✅</div>
+              <div class="item-info"><div class="item-title">SSG Johnson</div><div class="item-meta">Re: PTSD</div><div class="item-detail">Fellow squad member • Attached Aug 1</div></div>
+              <span class="badge badge-free">ATTACHED</span>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-left">
-              <div class="timeline-dot"></div>
-              <div class="timeline-line"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="card">
-                <div class="h4">Camp Lejeune</div>
-                <div class="detail-item" style="margin-top: 4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Jacksonville, NC</div>
-                <div class="detail-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>2nd MarDiv, 2/8</div>
-                <div class="station-footer">
-                  <span class="caption">Jan 2021 - Jun 2023</span>
-                  <span class="caption" style="color: var(--accent)">2 years, 5 months</span>
-                </div>
-              </div>
+          <div class="card">
+            <div class="item-row">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--warning) 20%, transparent);">📬</div>
+              <div class="item-info"><div class="item-title">CPL Martinez</div><div class="item-meta">Re: Knee Injury</div><div class="item-detail">Battle buddy • Received Jul 28</div></div>
+              <span class="badge badge-contingency">RECEIVED</span>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-left">
-              <div class="timeline-dot"></div>
-              <div class="timeline-line"></div>
-            </div>
-            <div class="timeline-content">
-              <div class="card">
-                <div class="h4">MCB Hawaii (K-Bay)</div>
-                <div class="detail-item" style="margin-top: 4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>Kaneohe Bay, HI</div>
-                <div class="detail-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>3rd Marines, 1/3</div>
-                <div class="station-footer">
-                  <span class="caption">Aug 2020 - Jan 2021</span>
-                  <span class="caption" style="color: var(--accent)">5 months</span>
-                </div>
-              </div>
+          <div class="card">
+            <div class="item-row">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--info) 20%, transparent);">📤</div>
+              <div class="item-info"><div class="item-title">SGT Williams</div><div class="item-meta">Re: Tinnitus</div><div class="item-detail">Platoon mate • Sent Jul 15</div></div>
+              <span class="badge badge-upcoming">SENT</span>
             </div>
           </div>
-
-          <div class="timeline-item">
-            <div class="timeline-left">
-              <div class="timeline-dot"></div>
+          <div class="card">
+            <div class="item-row">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--text-muted) 20%, transparent);">📄</div>
+              <div class="item-info"><div class="item-title">LCpl Davis</div><div class="item-meta">Re: Lower Back Pain</div><div class="item-detail">Roommate • Created Jul 20</div></div>
+              <span class="badge" style="background:var(--surface);color:var(--text-muted);border:1px solid var(--border);">DRAFT</span>
             </div>
-            <div class="timeline-content">
-              <div class="card">
-                <div class="h4">MCRD San Diego</div>
-                <div class="detail-item" style="margin-top: 4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>San Diego, CA</div>
-                <div class="detail-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Recruit Training</div>
-                <div class="station-footer">
-                  <span class="caption">Mar 2020 - Aug 2020</span>
-                  <span class="caption" style="color: var(--accent)">5 months</span>
-                </div>
-              </div>
+          </div>
+        </div>
+
+        <div class="section-pad" style="margin-top:16px;">
+          <div class="card card-elevated" style="text-align:center;padding:24px;">
+            <div style="font-size:32px;margin-bottom:12px;">📝</div>
+            <div class="h4" style="margin-bottom:8px;">How Buddy Letters Work</div>
+            <div class="body-small" style="text-align:left;">
+              1. Select a condition to support<br>
+              2. Enter your buddy's name & email<br>
+              3. App generates a VA-compliant PDF template<br>
+              4. Email it directly to your buddy<br>
+              5. Track status: Draft → Sent → Received → Attached<br>
+              6. Attach returned letter to your condition
             </div>
           </div>
         </div>
       </div>
-
-      <div class="fab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-
+      <div class="fab" onclick="alert('Opens 4-step form:\\n1. Select Condition (PTSD, Tinnitus, etc.)\\n2. Buddy Info (name, email, rank, relationship)\\n3. Shared Service Context (duty station, deployment)\\n4. Custom Questions\\n\\nGenerates VA-compliant PDF & emails directly.')">➕</div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><span>Deploy</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-stations')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg><span>Stations</span></div>
-        <div class="tab-item" onclick="showScreen('screen-claim')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Claim</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
       </div>
     </div>
 
     <!-- ============================================================
-         VA CLAIM SCREEN
+         VA REGULATIONS / PRESUMPTIVES (NEW)
          ============================================================ -->
-    <div class="screen" id="screen-claim">
-      <div class="screen-scroll" style="padding-top: 50px;">
-        <div style="padding: 0 24px;">
-          <div class="h2">VA Claim Prep</div>
-          <div class="body-small" style="margin-top: 4px;">Your documentation summary for filing</div>
-        </div>
-
-        <!-- Readiness Card -->
-        <div class="card card-elevated readiness-card">
-          <div class="readiness-header">
-            <div class="label" style="color: var(--primary)">CLAIM READINESS</div>
-            <div class="score-badge">72%</div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 72%"></div>
-          </div>
-          <div class="caption" style="margin-top: 8px;">Strong documentation. Consider adding conditions and linking records.</div>
-        </div>
-
-        <!-- Checklist -->
-        <div style="padding: 0 24px; margin-bottom: 20px;">
-          <div class="h4" style="margin-bottom: 12px;">Documentation Checklist</div>
-        </div>
-        <div class="checklist">
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>Service dates recorded</span>
-          </div>
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>At least 1 duty station</span>
-          </div>
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>3+ medical appointments documented</span>
-          </div>
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>Appointments marked service-connected</span>
-          </div>
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>Deployments logged</span>
-          </div>
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>Environmental exposures documented</span>
-          </div>
-          <div class="checklist-item done">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            <span>Service conditions identified</span>
-          </div>
-          <div class="checklist-item pending">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-            <span>Supporting documents attached</span>
-          </div>
-        </div>
-
-        <!-- Evidence Summary -->
-        <div style="padding: 0 24px; margin-bottom: 12px;">
-          <div class="h4">Evidence Summary</div>
-        </div>
-        <div class="evidence-grid">
-          <div class="evidence-tile">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            <div class="evidence-value">23</div>
-            <div class="caption">Appointments</div>
-            <div class="caption" style="color: var(--warning); font-size: 10px;">14 service-connected</div>
-          </div>
-          <div class="evidence-tile">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
-            <div class="evidence-value">3</div>
-            <div class="caption">Deployments</div>
-            <div class="caption" style="color: var(--warning); font-size: 10px;">6 hazard types</div>
-          </div>
-          <div class="evidence-tile">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg>
-            <div class="evidence-value">4</div>
-            <div class="caption">Duty Stations</div>
-            <div class="caption" style="font-size: 10px;">PCS history</div>
-          </div>
-          <div class="evidence-tile">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-            <div class="evidence-value">8</div>
-            <div class="caption">Attachments</div>
-            <div class="caption" style="font-size: 10px;">Documents & photos</div>
-          </div>
-        </div>
-
-        <!-- Export Button -->
-        <div style="padding: 0 24px 100px;">
-          <button class="btn btn-primary" onclick="alert('Generates a formatted text summary of all your service records, conditions, deployments, and medical appointments — ready to share with your VSO or VA representative.')">
-            📋 EXPORT CLAIM SUMMARY
-          </button>
-          <button class="btn btn-outline" style="margin-top: 8px;">
-            + ADD SERVICE CONDITION
-          </button>
+    <div class="screen" id="screen-va">
+      <div class="list-header">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><span class="h3">VA Regulations</span><span style="cursor:pointer;color:var(--primary);">🔄</span></div>
+        <div class="filter-row">
+          <div class="filter-tab active-warning">Your Matches (6)</div>
+          <div class="filter-tab">All Presumptives (18)</div>
+          <div class="filter-tab">Rating Criteria</div>
         </div>
       </div>
-
+      <div class="screen-scroll">
+        <div class="match-banner" style="margin: 12px 24px;">
+          <span>⚠️</span>
+          <span class="body-small" style="color:var(--warning);">Based on your logged exposures (burn pits, noise, PFAS), you may qualify for these presumptive conditions.</span>
+        </div>
+        <div class="item-list">
+          <div class="card">
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🫁</div><div class="item-info"><div class="item-title">Sinusitis (Chronic)</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Respiratory</span></div></div></div>
+            <div class="body-small" style="margin-top:8px;">Chronic sinusitis associated with prolonged exposure to airborne particulates.</div>
+            <div class="caption" style="margin-top:6px;">✅ Matches: Burn Pits, Sand/Dust • 38 CFR § 3.320</div>
+          </div>
+          <div class="card">
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🫁</div><div class="item-info"><div class="item-title">Asthma</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Respiratory</span></div></div></div>
+            <div class="body-small" style="margin-top:8px;">Asthma presumptively associated with toxic airborne exposures.</div>
+            <div class="caption" style="margin-top:6px;">✅ Matches: Burn Pits, Chemicals • Rating: 10-100% (FEV-1 based)</div>
+          </div>
+          <div class="card">
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">👂</div><div class="item-info"><div class="item-title">Tinnitus</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="spec-tag">Hearing</span><span class="spec-tag">DC 6260</span></div></div></div>
+            <div class="body-small" style="margin-top:8px;">Most commonly claimed VA disability. Maximum 10% rating.</div>
+            <div class="caption" style="margin-top:6px;">✅ Matches: Noise Exposure • Self-report often sufficient</div>
+          </div>
+          <div class="card">
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🧪</div><div class="item-info"><div class="item-title">Kidney Cancer</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">Cancer</span></div></div></div>
+            <div class="body-small" style="margin-top:8px;">Linked to PFAS (forever chemicals) exposure at military installations.</div>
+            <div class="caption" style="margin-top:6px;">✅ Matches: PFAS/AFFF • Effective 2024</div>
+          </div>
+          <div class="card">
+            <div class="item-row"><div class="item-icon" style="background:color-mix(in srgb, var(--primary) 15%, transparent);">🍽️</div><div class="item-info"><div class="item-title">GERD</div><div style="display:flex;gap:4px;margin-top:4px;"><span class="badge badge-pact">PACT ACT</span><span class="spec-tag">GI</span></div></div></div>
+            <div class="body-small" style="margin-top:8px;">Chronic GERD associated with inhaled toxins from burn pit exposure.</div>
+            <div class="caption" style="margin-top:6px;">✅ Matches: Burn Pits • Rating: 10-60%</div>
+          </div>
+        </div>
+      </div>
       <div class="tab-bar">
-        <div class="tab-item" onclick="showScreen('screen-dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span>Home</span></div>
-        <div class="tab-item" onclick="showScreen('screen-appointments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span>Medical</span></div>
-        <div class="tab-item" onclick="showScreen('screen-deployments')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><span>Deploy</span></div>
-        <div class="tab-item" onclick="showScreen('screen-stations')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/></svg><span>Stations</span></div>
-        <div class="tab-item active" onclick="showScreen('screen-claim')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg><span>Claim</span></div>
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         RESOURCES DIRECTORY (NEW)
+         ============================================================ -->
+    <div class="screen" id="screen-resources">
+      <div class="list-header">
+        <div class="h3">Claim Resources</div>
+        <div class="body-small" style="margin-top:4px;">Find help — rated by fellow veterans</div>
+        <div class="filter-row">
+          <div class="filter-tab active">All</div>
+          <div class="filter-tab" style="border-color:var(--success);color:var(--success);">🆓 Free</div>
+          <div class="filter-tab">💰 Contingency</div>
+          <div class="filter-tab">💲 Paid</div>
+        </div>
+        <div class="filter-row">
+          <div class="filter-tab active">All Types</div>
+          <div class="filter-tab">VSOs</div>
+          <div class="filter-tab">Attorneys</div>
+          <div class="filter-tab">Vet Centers</div>
+        </div>
+      </div>
+      <div class="screen-scroll">
+        <div class="item-list">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">🛡️</div>
+              <div style="flex:1;"><div class="item-title">Disabled American Veterans (DAV)</div><div class="caption">Veterans Service Organization</div></div>
+              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);">✓ Free</div>
+            </div>
+            <div class="body-small" style="margin-top:8px;">Free claim assistance with 1,700+ trained volunteers nationwide.</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★</span><span class="star-empty">★</span></span><span class="caption" style="margin-left:4px;">4.2 (47)</span></div>
+              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+            </div>
+            <div class="specialties-row"><span class="spec-tag">All claims</span><span class="spec-tag">Appeals</span><span class="spec-tag">Benefits</span></div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="item-icon" style="background:color-mix(in srgb, #E91E63 20%, transparent);">❤️</div>
+              <div style="flex:1;"><div class="item-title">Vet Centers</div><div class="caption">Readjustment Counseling</div></div>
+              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);">✓ Free</div>
+            </div>
+            <div class="body-small" style="margin-top:8px;">Free counseling for combat vets, MST survivors. 300+ locations. No VA enrollment needed.</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★★</span></span><span class="caption" style="margin-left:4px;">4.5 (23)</span></div>
+              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+            </div>
+            <div class="specialties-row"><span class="spec-tag">PTSD</span><span class="spec-tag">MST</span><span class="spec-tag">Combat stress</span></div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--info) 20%, transparent);">💼</div>
+              <div style="flex:1;"><div class="item-title">VA-Accredited Attorney</div><div class="caption">Claims Agent / Attorney</div></div>
+              <div class="cost-badge" style="border-color:var(--warning);color:var(--warning);background:color-mix(in srgb, var(--warning) 15%, transparent);">💰 Contingency</div>
+            </div>
+            <div class="body-small" style="margin-top:8px;">Typically 20-33% of backpay. No upfront cost — only paid if you win.</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★</span><span class="star-empty">★</span></span><span class="caption" style="margin-left:4px;">4.3 (12)</span></div>
+              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+            </div>
+            <div class="specialties-row"><span class="spec-tag">Appeals</span><span class="spec-tag">Denials</span><span class="spec-tag">TDIU</span><span class="spec-tag">Complex</span></div>
+          </div>
+
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="item-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">🛡️</div>
+              <div style="flex:1;"><div class="item-title">Veterans of Foreign Wars (VFW)</div><div class="caption">Veterans Service Organization</div></div>
+              <div class="cost-badge" style="border-color:var(--success);color:var(--success);background:color-mix(in srgb, var(--success) 15%, transparent);">✓ Free</div>
+            </div>
+            <div class="body-small" style="margin-top:8px;">Free claims assistance at local posts and VA regional offices nationwide.</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+              <div style="display:flex;align-items:center;gap:4px;"><span class="stars"><span class="star">★★★★</span><span class="star-empty">★</span></span><span class="caption" style="margin-left:4px;">4.0 (38)</span></div>
+              <span class="badge badge-free" style="font-size:9px;">🛡️ VA ACCREDITED</span>
+            </div>
+            <div class="specialties-row"><span class="spec-tag">Combat vets</span><span class="spec-tag">Pension</span><span class="spec-tag">Education</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item active" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         CLOUD BACKUP (NEW)
+         ============================================================ -->
+    <div class="screen" id="screen-cloud">
+      <div class="list-header">
+        <div style="display:flex;align-items:center;gap:8px;"><span style="cursor:pointer;font-size:20px;" onclick="showScreen('screen-dashboard')">←</span><span class="h3">Cloud Backup & Storage</span></div>
+      </div>
+      <div class="screen-scroll">
+        <!-- Status Card -->
+        <div class="card card-elevated" style="margin:16px 24px;">
+          <div class="cloud-status">
+            <div class="cloud-icon" style="background:color-mix(in srgb, var(--success) 20%, transparent);">☁️</div>
+            <div style="flex:1;">
+              <div style="font-weight:600;color:var(--text);">Cloud Backup Active</div>
+              <div class="caption">rodriguez@marines.mil</div>
+            </div>
+            <span style="color:var(--success);font-size:12px;">✓ Synced</span>
+          </div>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;"><span class="caption">Last backup:</span><span class="caption" style="color:var(--text-secondary);">Aug 21, 2026 at 2:15 PM</span></div>
+            <div style="display:flex;justify-content:space-between;margin-top:4px;"><span class="caption">Status:</span><span class="caption" style="color:var(--success);">✓ Up to date</span></div>
+          </div>
+        </div>
+
+        <!-- Storage Dashboard -->
+        <div class="section-pad"><div class="h4">Storage Usage</div></div>
+        <div style="display:flex;gap:8px;padding:0 24px;margin-bottom:24px;">
+          <div class="card" style="flex:1;text-align:center;">
+            <div style="font-size:24px;">📱</div>
+            <div class="h4" style="margin-top:4px;">48.2 MB</div>
+            <div class="caption">On Device</div>
+            <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;"><span class="caption">Database</span><span class="caption">2.1 MB</span></div>
+              <div style="display:flex;justify-content:space-between;margin-top:2px;"><span class="caption">Attachments</span><span class="caption">46.1 MB</span></div>
+            </div>
+          </div>
+          <div class="card" style="flex:1;text-align:center;">
+            <div style="font-size:24px;">☁️</div>
+            <div class="h4" style="margin-top:4px;">52.8 MB</div>
+            <div class="caption">In Cloud</div>
+            <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;"><span class="caption">Attachments</span><span class="caption">12 files</span></div>
+              <div style="display:flex;justify-content:space-between;margin-top:2px;"><span class="caption">Encrypted</span><span class="caption" style="color:var(--success);">✓ Yes</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="section-pad"><div class="h4">Actions</div></div>
+        <div style="padding:0 24px;display:flex;flex-direction:column;gap:8px;margin-bottom:24px;">
+          <button class="btn btn-primary" onclick="alert('Encrypts all data on-device → uploads to Supabase cloud. Only your password can decrypt it.')">☁️ BACK UP NOW</button>
+          <button class="btn btn-outline">📥 RESTORE FROM CLOUD</button>
+        </div>
+
+        <!-- Security -->
+        <div class="section-pad"><div class="h4">Security</div></div>
+        <div class="card" style="margin:0 24px 24px;">
+          <div class="security-item"><span>🔒</span><div><div class="body-small" style="color:var(--text);font-weight:600;">End-to-End Encrypted</div><div class="caption">Data encrypted on your device before upload</div></div></div>
+          <div class="security-item"><span>🔑</span><div><div class="body-small" style="color:var(--text);font-weight:600;">You Hold the Key</div><div class="caption">Only your password can decrypt your data</div></div></div>
+          <div class="security-item"><span>🙈</span><div><div class="body-small" style="color:var(--text);font-weight:600;">Zero Knowledge</div><div class="caption">Server cannot read your medical records</div></div></div>
+          <div class="security-item" style="border-bottom:none;"><span>🏢</span><div><div class="body-small" style="color:var(--text);font-weight:600;">SOC 2 Infrastructure</div><div class="caption">Supabase hosted, compliant infrastructure</div></div></div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item" onclick="showScreen('screen-dashboard')"><span style="font-size:18px;">🏠</span><span>Home</span></div>
+        <div class="tab-item" onclick="showScreen('screen-appointments')"><span style="font-size:18px;">🏥</span><span>Medical</span></div>
+        <div class="tab-item" onclick="showScreen('screen-deployments')"><span style="font-size:18px;">🌍</span><span>Deploy</span></div>
+        <div class="tab-item" onclick="showScreen('screen-va')"><span style="font-size:18px;">⚖️</span><span>VA Info</span></div>
+        <div class="tab-item" onclick="showScreen('screen-resources')"><span style="font-size:18px;">⭐</span><span>Resources</span></div>
       </div>
     </div>
 
@@ -1799,55 +671,22 @@
 </div>
 
 <script>
-  // Screen navigation
-  function showScreen(screenId) {
+  function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
+    document.getElementById(id).classList.add('active');
   }
 
-  // Branch theme switching
   function setBranch(branch) {
-    const phone = document.getElementById('phone');
-    phone.className = 'phone-frame theme-' + branch;
-
-    // Update branch label on dashboard
-    const branchNames = {
-      army: 'ARMY',
-      navy: 'NAVY',
-      air_force: 'AIR FORCE',
-      marines: 'MARINES',
-      coast_guard: 'COAST GUARD',
-      space_force: 'SPACE FORCE'
-    };
-    const fullNames = {
-      army: 'United States Army',
-      navy: 'United States Navy',
-      air_force: 'United States Air Force',
-      marines: 'United States Marine Corps',
-      coast_guard: 'United States Coast Guard',
-      space_force: 'United States Space Force'
-    };
-    const ranks = {
-      army: 'SGT',
-      navy: 'PO2',
-      air_force: 'SSgt',
-      marines: 'SGT',
-      coast_guard: 'PO2',
-      space_force: 'Spc 4'
-    };
-
-    document.getElementById('dash-branch-label').textContent = branchNames[branch];
-    document.getElementById('dash-branch-name').textContent = fullNames[branch];
+    document.getElementById('phone').className = 'phone-frame theme-' + branch;
+    const names = { army: 'ARMY', navy: 'NAVY', air_force: 'AIR FORCE', marines: 'MARINES', coast_guard: 'COAST GUARD', space_force: 'SPACE FORCE' };
+    const full = { army: 'United States Army', navy: 'United States Navy', air_force: 'United States Air Force', marines: 'United States Marine Corps', coast_guard: 'United States Coast Guard', space_force: 'United States Space Force' };
+    const ranks = { army: 'SGT', navy: 'PO2', air_force: 'SSgt', marines: 'SGT', coast_guard: 'PO2', space_force: 'Spc 4' };
+    document.getElementById('dash-branch').textContent = names[branch];
+    document.getElementById('dash-branch-full').textContent = full[branch];
     document.getElementById('dash-name').textContent = ranks[branch] + ' Rodriguez';
-
-    // Update active state on branch buttons
-    document.querySelectorAll('.branch-btn-demo').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.branch-btn-demo').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
   }
-
-  // Start on dashboard with Marines theme
-  showScreen('screen-dashboard');
 </script>
-
 </body>
 </html>
